@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+<!-- 		<typeAlias alias="mvAccountList" type="com.tstar.model.MvAccountList"/> -->
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/tstar/dao/custom/sqlMap/CustomMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/ProjectsMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/DevicesMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/ProjectsMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/RateProjectsMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/TelecomMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/TelecomRateMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/SystemLookupMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/SelectListMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/MvPushMessageRecordMainMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/MvPushMessageRecordDetailMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/MvAccountlistMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/MvPushMessageUsersMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/FormDataMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/CommercialReferenceMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/FilterListMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/MvMessageListMapper.xml" />
+		<mapper resource="com/tstar/dao/tapp/sqlMap/TransactionLogMapper.xml" />
+	</mappers>
+</configuration>

@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Soft Hued 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130831
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>台灣之星APP後台管理系統</title>
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+	<script src="js/ga.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="js/jquery.blockUI.js"></script>
+	<script src="js/util.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script><!--自動validate form欄位 plugin，參考網頁：http://www.minwt.com/js/1800.html -->
+	<!--<script type="text/javascript" src="js/cmxforms.js"></script>--><!--自動validate form欄位 plugin用的，格式化form元件，參考網頁：http://www.minwt.com/js/1800.html -->
+	<!--<script type="text/javascript" src="js/ajaxfileupload.js"></script>--><!--檔案上傳用的，參考網頁：http://www.phpletter.com/Our-Projects/AjaxFileUpload/ -->
+	<script src="js/jquery-ui-timepicker-addon.js"></script><!-- 將 JQuery UI 的 date picker 加上時間功能，請參考 http://trentrichardson.com/examples/timepicker/ -->
+	<!--<script type="text/javascript" src="js/jquery.watermark.min.js"></script>--><!--在input text欄位顯示說明文字之用，參考網頁：https://code.google.com/p/jquery-watermark/-->
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<table><tr><td><h1><a href="index.jsp">台灣之星APP後台管理系統</a></h1></td><td class="headeruserid"><span id="FunctionName"></span><span>-</span></td><td class="headeruserid"><span id="LoginId"></span></td></tr></table>
+		</div>
+		<div id="mainmenu">
+			<ul id="mainmenuitem">
+				<!--
+				<li class="current_page_item"><a href="MessageQuery.html">訊息維護</a></li>
+				<li><a href="AccountSetting">權限設定</a></li>
+				<li><a href="#" onclick="doLogout();">登出</a></li>
+				-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="wrapper">
+	<div id="page" class="container">
+		<form class="cmxform" id="frmMain" name="frmMain" method="post" action="../myviboadmin_pushmessage/ajaxAdmPushMessageSend.jsp" target="_blank">
+			<table cellspacing="10">
+				<tr>
+					<td style="color:#FF0000;">＊服務名稱</td>
+					<td>
+						<select id="ServiceId" name="ServiceId">
+							<option value="">請選擇</option>
+						</select>
+					</td>
+					<td style="text-align:right;">裝置類型</td>
+					<td style="text-align:left;">
+						<input type="checkbox" id="DeviceTypeA" name="DeviceTypeA" value="A">Android&nbsp;&nbsp;<input type="checkbox" id="DeviceTypeI" name="DeviceTypeI" value="I">iOS
+					</td>
+					<td style="text-align:right;">發送對象</td>
+					<td style="text-align:left;">
+						<select id="SendType" name="SendType">
+							<option value="1">測試門號(不會紀錄至DB)</option>
+							<option value="2">測試合約編號(不會紀錄至DB)</option>
+							<option value="3">測試Device Id(不會紀錄至DB)</option>
+							<option value="4">正式門號</option>
+							<option value="5">正式合約編號</option>
+							<option value="6">正式Device Id</option>
+<!-- 							<option value="7">該服務全用戶</option> -->
+						</select>
+					</td>
+					</tr>
+				<tr><td>門號<br>若為多筆資料請以逗點分隔</td><td colspan="5"><textarea id="MSISDN" name="MSISDN" rows="4" cols="50"></textarea></td></tr>
+				<tr><td>合約編號<br>若為多筆資料請以逗點分隔</td><td colspan="5"><textarea id="ContractId" name="ContractId" rows="4" cols="50"></textarea></td></tr>
+				<tr><td>Device ID<br>若為多筆資料請以逗點分隔</td><td colspan="5"><textarea id="DeviceId" name="DeviceId" rows="4" cols="50"></textarea></td></tr>
+				<tr>
+<!-- 					<td style="color:#FF0000;">＊通知訊息主旨</td> -->
+					
+<!-- 					<td style="color:#FF0000;">＊標籤名稱</td> -->
+					<td><input type="text" id="TitleTag" name="TitleTag" class="required" size="12" maxlength="10" value="title" readonly></td>
+					<td style="color:#FF0000;">＊主旨內容</td>
+					<td colspan="2">
+						<input type="text" id="TitleBody" name="TitleBody" class="required" value="T STAR服務通知" >
+						</td>
+					</tr>
+				<tr>
+<!-- 					<td style="color:#FF0000;">＊通知訊息內容</td> -->
+<!-- 					<td style="color:#FF0000;">＊標籤名稱</td> -->
+					<td><input type="text" id="MessageTag" name="MessageTag" class="required" size="12" maxlength="10" value="message" readonly></td>
+					<td style="color:#FF0000;">＊訊息內容</td>
+					<td colspan="2"><textarea id="MessageBody" name="MessageBody" rows="4" cols="50" maxlength="240" class="required"></textarea></td>
+					</tr>
+					<tr>
+<!-- 						<td style="color: #FF0000;">＊訊息有效期限</td> -->
+<!-- 						<td style="color: #FF0000;">＊標籤名稱</td> -->
+						<td><input type="text" id="ExpiryTag" name="ExpiryTag" class="required" size="12" maxlength="10" value="exp" readonly></td>
+						<td style="color: #FF0000;">＊有效期限</td>
+						<td colspan="2"><input type="text" id="ExpiryDate" name="ExpiryDate" class="required">
+							<input type="hidden" id="ExpiryDateUTC" name="ExpiryDateUTC" value="">
+							<input type="hidden" id="SenderId" name="SenderId" value="">
+						</td>
+					</tr>
+					<tr>
+<!-- 						<td style="color: #FF0000;">＊執行動作</td> -->
+<!-- 						<td style="color: #FF0000;">＊動作標籤名稱</td> -->
+						<td><input type="text" id="ActionTag" name="ActionTag" size="12" maxlength="10" value="action" readonly></td>
+						<td style="color: #FF0000;">＊動作</td>
+						<td colspan="2"><input type="text" id="ActionValue" name="ActionValue" ></td>
+					</tr>
+					<tr>
+<!-- 						<td style="color: #FF0000;">＊動作內容</td> -->
+<!-- 						<td style="color: #FF0000;">＊動作內容標籤名稱</td> -->
+						<td><input type="text" id="ActionParamTag" name="ActionParamTag" size="12" maxlength="15" value="actionParam" readonly></td>
+						<td style="color: #FF0000;">＊動作值</td>
+						<td colspan="2"><input type="text" id="ActionParam" name="ActionParam" ></td>
+					</tr>
+					<tr><td><input type="button" class="button" id="btnSubmit" name="btnSubmit" value="確定" onclick="doSend();"></td><td><input type="reset" class="button" id="btnReset" name="btnReset" value="清除"></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div id="footer" class="container">
+	<div id="copyright" class="container">
+	<p>台灣之星電信版權所有 Copyright© 2014 Taiwan Star Telecom Co., Ltd. All Rights Reserved.&nbsp;&nbsp;&nbsp;&nbsp;(最佳解析度1280X800)</p>
+</div>
+
+<div id="dialog-confirm" title="確定要發送給全體用戶？" style="display:none;">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>您即將要發送推播通知給<span id="alert1" name="alert1"></span>的<span id="alert2" name="alert2"></span>全體用戶，請問您確定嗎？</p>
+</div>
+</body>
+</html>
+
+
+<script>
+	$(function() {
+		//$(".button").button().click(function(event){event.preventDefault();});	//將class=button的物件做成 JQuery UI 的 button
+		$(".button").button();	//將class=button的物件做成 JQuery UI 的 button
+
+		getLoginId('推播通知發送');	//取得目前登入使用者的ID
+		
+		getServiceList();	//取得服務清單
+		
+		setDatetimePicker('ExpiryDate');	//將某個 input box 設為 datetime picker
+		
+		$('#frmMain').validate();	//將form套用自動validate form元件的JQuery plugin
+	});
+</script>
+
+<script>
+
+	//取得服務清單
+	function getServiceList(success){
+		showBlockUI();
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmGetServiceList.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: '',
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					var ss = "";
+					$(xml).find("item").each( function() {
+						ss += "<option value='" + $(this).children("ServiceId").text() + "'>" + $(this).children("ServiceName").text() + "</option>";
+					});
+					$('#ServiceId').append(ss);
+					if (success!=null && typeof(success)=="function") success();
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}	//function getServiceList(){
+	
+	function doSend(){	//發送Push Notification
+
+		if (!$("#frmMain").valid()){
+			alert('某些欄位輸入錯誤');
+			return false;
+		}
+
+		if (beEmpty($('#ServiceId').val())){
+			alert("請選擇服務名稱!");
+			return;
+		}
+
+		if (beEmpty($('#MessageBody').val())){
+			alert("請填寫通知訊息內容!");
+			return;
+		}
+
+		if (($('#SendType').val()=='1' || $('#SendType').val()=='4') && beEmpty($('#MSISDN').val())){	//發送給測試門號
+			alert("請填入門號!");
+			return;
+		}
+
+		if (($('#SendType').val()=='2' || $('#SendType').val()=='5') && beEmpty($('#ContractId').val())){	//發送給測試合約編號
+			alert("請填入合約編號!");
+			return;
+		}
+
+		if (($('#SendType').val()=='3' || $('#SendType').val()=='6') && beEmpty($('#DeviceId').val())){	//發送給測試Device Id
+			alert("請填入Device Id!");
+			return;
+		}
+
+		if (notEmpty($('#ExpiryDate').val())){	//將有效期限轉為UTC時間
+			var from_date = $('#ExpiryDate').val();
+			var YYYY = from_date.substring(0, 4);
+			var MM = from_date.substring(5, 7);
+			var DD = from_date.substring(8, 10);
+			var HH = from_date.substring(11, 13);
+			var MI = from_date.substring(14, 16);
+			var SS = from_date.substring(17);
+			var d = Date.UTC(parseInt(YYYY, 10), parseInt(MM, 10)-1, parseInt(DD, 10), parseInt(HH, 10), parseInt(MI, 10), parseInt(SS, 10), 0);
+			d = d.toString();
+			//d = d.substring(0, d.length-3);	//把minisecond移除
+			$('#ExpiryDateUTC').val(d);
+			//alert(d);
+			//return;
+		}	//if (notEmpty($('#ExpiryDate').val())){	//將有效期限轉為UTC時間
+		
+		$('#SenderId').val($('#LoginId').text());
+
+		if ($('#SendType').val()!='7'){	//發送給指定用戶
+			$('#frmMain').submit();
+			return;
+		}
+
+		if ($('#SendType').val()=='7'){	//發送給該服務全用戶
+			if (!$("input[name='DeviceTypeA']").is(":checked") && !$("input[name='DeviceTypeI']").is(":checked")){	//沒勾選Android也沒勾選Android
+				alert("請選擇裝置類型!");
+				return;
+			}
+			var s = $('#ServiceId').val();
+			$('#alert1').text(s);
+			if ($("input[name='DeviceTypeA']").is(":checked") && $("input[name='DeviceTypeI']").is(":checked")) $('#alert2').text('Android及iOS');
+			if ($("input[name='DeviceTypeA']").is(":checked") && !$("input[name='DeviceTypeI']").is(":checked")) $('#alert2').text('Android');
+			if (!$("input[name='DeviceTypeA']").is(":checked") && $("input[name='DeviceTypeI']").is(":checked")) $('#alert2').text('iOS');
+			
+			$( "#dialog-confirm" ).dialog({
+				resizable: false,
+				height:250,
+				modal: true,
+				buttons: {
+					"確認發送": function() {
+						$( this ).dialog( "close" );
+						_gaq.push(['_trackEvent', '推播通知', $('#ServiceId').val(), $('#LoginId').text()]);	//紀錄至Google Analytics		
+						$('#frmMain').submit();
+					},
+					"取消": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+		}	//if ($('#SendType').val()=='7'){	//發送給該服務全用戶
+		return;
+	}	//function doSend(){	//發送Push Notification
+</script>

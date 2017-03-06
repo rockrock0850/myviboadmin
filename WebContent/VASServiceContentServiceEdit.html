@@ -1,0 +1,397 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Soft Hued 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130831
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>台灣之星APP後台管理系統</title>
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+	<script src="js/ga.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="js/jquery.blockUI.js"></script>
+	<script src="js/util.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script><!--自動validate form欄位 plugin，參考網頁：http://www.minwt.com/js/1800.html -->
+	<!--<script type="text/javascript" src="js/cmxforms.js"></script>--><!--自動validate form欄位 plugin用的，格式化form元件，參考網頁：http://www.minwt.com/js/1800.html -->
+	<script type="text/javascript" src="js/ajaxfileupload.js"></script><!--檔案上傳用的，參考網頁：http://www.phpletter.com/Our-Projects/AjaxFileUpload/ -->
+	<script src="js/jquery-ui-timepicker-addon.js"></script> <!-- 將 JQuery UI 的 date picker 加上時間功能，請參考 http://trentrichardson.com/examples/timepicker/ -->
+	<script type="text/javascript" src="js/jquery.watermark.min.js"></script><!--在input text欄位顯示說明文字之用，參考網頁：https://code.google.com/p/jquery-watermark/-->
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<table><tr><td><h1><a href="index.jsp">台灣之星APP後台管理系統</a></h1></td><td class="headeruserid"><span id="FunctionName"></span><span>-</span></td><td class="headeruserid"><span id="LoginId"></span></td></tr></table>
+		</div>
+		<div id="mainmenu">
+			<ul id="mainmenuitem">
+				<!--
+				<li class="current_page_item"><a href="MessageQuery.html">訊息維護</a></li>
+				<li><a href="AccountSetting">權限設定</a></li>
+				<li><a href="#" onclick="doLogout();">登出</a></li>
+				-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="wrapper">
+	<div id="page" class="container">
+		<form class="cmxform" id="frmMain" name="frmMain">
+			<input type="hidden" id="jobType" name="jobType" value="">
+			<input type="hidden" id="CurrentUser" name="CurrentUser" value="">
+			<table cellspacing="10">
+				<tr><td style="color:#FF0000;">＊服務代碼</td>		<td><input type="text" id="ServiceId" name="ServiceId" class="required"></td></tr>
+				<tr><td style="color:#FF0000;">＊服務名稱</td>		<td><input type="text" id="ServiceName" name="ServiceName" class="required"></td></tr>
+				<tr>
+					<td>所屬類別</td>
+					<td>
+						<select id="CategoryId" name="CategoryId">
+							<option value="">請選擇</option>
+						</select>
+					</td>
+				</tr>
+				<tr><td>標題圖檔(64X64)</td><td>
+					    <input type="text" id="ServiceIcon" name="ServiceIcon" disabled>
+					    <input type="file" name="filePath1" id="filePath1"/>
+					    <input type="button" name="fileUpload1" id="fileUpload1" onclick="doFileUpload('1');" value="上傳" />
+					    <span id="FileUploadStatus1"></span>
+					</td></tr>
+				<tr><td>標題圖檔預覽</td><td><img id="img1" name="img1"><input type="button" name="fileRemove1" id="fileRemove1" onclick="doFileRemove('1');" value="移除" /></td></tr>
+				<tr><td>服務大圖檔(720X300)</td><td>
+					    <input type="text" id="ServicePic" name="ServicePic" disabled>
+					    <input type="file" name="filePath2" id="filePath2"/>
+					    <input type="button" name="fileUpload2" id="fileUpload2" onclick="doFileUpload('2');" value="上傳" />
+					    <span id="FileUploadStatus2"></span>
+					</td></tr>
+				<tr><td>服務大圖檔預覽</td><td colspan="3"><img id="img2" name="img2"><input type="button" name="fileRemove2" id="fileRemove2" onclick="doFileRemove('2');" value="移除" /></td></tr>
+				<tr><td><input type="checkbox" id="ShowBanner" name="ShowBanner">&nbsp;圖檔顯示於加值服務主頁或所屬類別頁</td></tr>
+				<tr><td>服務提供商(CP)</td>								<td><input type="text" id="Vendor" name="Vendor" size="50" maxlength="70"></td></tr>
+				<tr><td>服務簡述</td>								<td><input type="text" id="ShortDesc" name="ShortDesc" size="50" maxlength="255"></td></tr>
+				<tr><td>詳細介紹</td><td><textarea id="BodyText" name="BodyText" rows="4" cols="50"></textarea></td></tr>
+				<tr><td>貼心提醒</td><td><textarea id="BodyText2" name="BodyText2" rows="4" cols="50"></textarea></td></tr>
+				<tr><td>連結至外部的URL(forAndroidAPP)</td>								<td><input type="text" id="LinkURLAndroid" name="LinkURLAndroid" size="50" maxlength="255"></td></tr>
+				<tr><td>連結至外部的URL(foriOSAPP)</td>								<td><input type="text" id="LinkURLiOS" name="LinkURLiOS" size="50" maxlength="255"></td></tr>
+				<tr><td>連結至外部的URL(forWeb類型的服務)</td>								<td><input type="text" id="LinkURLWeb" name="LinkURLWeb" size="50" maxlength="255"></td></tr>
+				<tr><td>客服專線</td>								<td><input type="text" id="CSRTel" name="CSRTel" size="50" maxlength="255"></td></tr>
+				<tr><td>客服時間</td>								<td><input type="text" id="CSRTime" name="CSRTime" size="50" maxlength="255"></td></tr>
+				<tr><td>客服信箱</td>								<td><input type="text" id="CSREmail" name="CSREmail" size="50" maxlength="255"></td></tr>
+				<tr>
+					<td style="color:#FF0000;">＊支援平台</td>
+					<td>
+						<select id="Platform" name="Platform" class="required">
+							<option value="">請選擇</option>
+							<option value="0">都可支援</option>
+							<option value="1">Android限定</option>
+							<option value="2">iOS限定</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td style="color:#FF0000;">＊服務類型</td>
+					<td>
+						<select id="ServiceType" name="ServiceType" class="required">
+							<option value="">請選擇</option>
+							<option value="1">APP</option>
+							<option value="2">網頁</option>
+						</select>
+					</td>
+				</tr>
+				<tr><td style="color:#FF0000;">＊生效時間</td><td><input type="text" id="EffectDate" name="EffectDate" class="required"></td></tr>
+				<tr><td style="color:#FF0000;">＊失效時間</td><td><input type="text" id="ExpireDate" name="ExpireDate" class="required"></td></tr>
+				<tr><td><input type="button" class="button" id="btnSubmit" name="btnSubmit" value="確定" onclick="doEdit();"></td><td><input type="reset" class="button" id="btnReset" name="btnReset" value="清除"></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div id="footer" class="container">
+	<div id="copyright" class="container">
+	<p>台灣之星電信版權所有 Copyright© 2014 Taiwan Star Telecom Co., Ltd. All Rights Reserved.&nbsp;&nbsp;&nbsp;&nbsp;(最佳解析度1280X800)</p>
+</div>
+</body>
+</html>
+
+
+<script>
+	$(function() {
+		//$(".button").button().click(function(event){event.preventDefault();});	//將class=button的物件做成 JQuery UI 的 button
+		$(".button").button();	//將class=button的物件做成JQueryUI的button
+
+		getLoginId('加值內容服務維護');	//取得目前登入使用者的ID
+
+		setDatetimePicker('EffectDate');	//將某個inputbox設為datetimepicker
+		setDatetimePicker('ExpireDate');	//將某個inputbox設為datetimepicker
+		
+		$('#frmMain').validate();	//將form套用自動validateform元件的JQueryplugin
+
+		getServiceList(setBasicInfo);	//取得服務類別清單，填入一些有值的欄位
+
+	});
+</script>
+
+<script>
+	//取得服務清單
+	function getServiceList(success){
+		showBlockUI();
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmGetVASServiceContentCategoryList.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: '',
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000=1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function(xml){//ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode=$(xml).find("ResultCode").text();
+				var ResultText=$(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					var ss = "";
+					$(xml).find("item").each(function(){
+						ss +="<option value='" + $(this).children("CategoryId").text() + "'>" + $(this).children("CategoryName").text() + "</option>";
+					});
+					$('#CategoryId').append(ss);
+					if (success!=null && typeof(success)=="function") success();
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function(xml){//ajax請求成功後dosomethingwithxml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}	//function getServiceList(){
+
+	//填入一些已有值的欄位
+	function setBasicInfo(){
+		var sid = getParameterByName('sid');
+
+		if (beEmpty(sid)){	//新增資料
+			$('#jobType').val('a');
+		}else{	//修改既有資料
+			$('#jobType').val('e');
+		}	//if (beEmpty(mid)){	//新增資料
+
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmGetVASServiceContentServiceInfo.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: 'sid=' + sid,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000=1秒
+			error: function (){	//錯誤提示
+				alert ('系統忙碌中，無法取得服務代碼請稍候再試!!');
+			},
+			success: function(xml){//ajax請求成功後dosomethingwithxml
+				var ResultCode=$(xml).find("ResultCode").text();
+				var ResultText=$(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					$('#ServiceId').val($(xml).find("ServiceId").text());
+					$('#ServiceId').attr('disabled','disabled');	//這是primarykey，不允許修改
+					if (notEmpty(sid)){	//修改既有資料
+						$('#ServiceName').val($(xml).find("ServiceName").text());
+						$('#CategoryId').val($(xml).find("CategoryId").text());
+						$('#ServiceIcon').val($(xml).find("ServiceIcon").text());
+						$('#img1').attr('src', $(xml).find("ServiceIcon").text());
+						$('#img1').show();
+						$('#ServicePic').val($(xml).find("ServicePic").text());
+						$('#img2').attr('src', $(xml).find("ServicePic").text());
+						$('#img2').show();
+						if (notEmpty($(xml).find("ShowBanner").text()) && $(xml).find("ShowBanner").text()=="Y") $('#ShowBanner').attr('checked', 'checked');
+						$('#Vendor').val($(xml).find("Vendor").text());
+						$('#ShortDesc').val($(xml).find("ShortDesc").text());
+						$('#BodyText').html($(xml).find("BodyText").text());
+						$('#BodyText2').html($(xml).find("BodyText2").text());
+						$('#LinkURLAndroid').val($(xml).find("LinkURLAndroid").text());
+						$('#LinkURLiOS').val($(xml).find("LinkURLiOS").text());
+						$('#LinkURLWeb').val($(xml).find("LinkURLWeb").text());
+						$('#CSRTel').val($(xml).find("CSRTel").text());
+						$('#CSRTime').val($(xml).find("CSRTime").text());
+						$('#CSREmail').val($(xml).find("CSREmail").text());
+						$('#Platform').val($(xml).find("Platform").text());
+						$('#ServiceType').val($(xml).find("ServiceType").text());
+						$('#EffectDate').val($(xml).find("EffectDate").text());
+						$('#ExpireDate').val($(xml).find("ExpireDate").text());
+					}	//if (notEmpty(mid)){	//修改既有資料
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='<%=gcResultCodeSuccess%>'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}	//function setBasicInfo(){
+
+	//將標題圖檔及內文圖檔上傳至Server
+	function doFileUpload(sid){
+		if (beEmpty(sid)){
+			return false;
+		}
+		if (beEmpty($('#filePath'+sid).val())){
+			alert('請先選擇檔案!');
+			return false;
+		}
+		
+		$("#FileUploadStatus"+sid).html('');
+		var bsecureuri = false;
+		if (location.href.indexOf('https')>-1) bsecureuri = true;
+		//alert('bsecureuri=' + bsecureuri);
+		//先將ItemCode及目前上傳的為第幾張送給server，讓server存入session中，然後再上傳檔案
+		$.get("ajaxAdmFileUploader_UpdateJobInfo.jsp", {txtMessageId:$('#ServiceId').val(),txtPicIndex:sid}, function (data,textStatus){
+			if (data.indexOf("success")>0){
+				$.ajaxFileUpload({
+					url:"ajaxAdmFileUploader_UploadFile.jsp?sid="+sid,
+					secureuri:bsecureuri,
+					fileElementId:'filePath'+sid,
+					dataType: 'text/xml',			
+					success: function (data, status){
+						//data = data.trim();
+						if (data.indexOf("newfilename")>-1){	//成功
+							if (sid==1)	$('#ServiceIcon').val(data.substring(12));
+							if (sid==2) $('#ServicePic').val(data.substring(12));
+							$("#img"+sid).attr('src', data.substring(12));
+							$("#img"+sid).show();
+							$("#FileUploadStatus"+sid).html('檔案上傳成功');
+						}else{	//失敗
+							alert('檔案上傳失敗，訊息：' + data);
+							$("#FileUploadStatus"+sid).html('<span style="color:#FF0000;">檔案上傳失敗，訊息：' + data + '</span>');
+						}	//if (data.indexOf("newfilename")>-1){	//成功
+					},
+					error: function (data, status, e){
+						alert("檔案上傳失敗：" + e);
+						$("#FileUploadStatus"+sid).html('<span style="color:#FF0000;">檔案上傳失敗' + '</span>');
+					}
+				});	//$.ajaxFileUpload({
+
+			}else{
+				$("#FileUploadStatus"+sid).text('上傳圖檔索引失敗：' + data);
+			}	//if (data=="success"){
+		});	//$.get("FileUploader_UpdateJobInfo.jsp", {txtJobName:"phone", txtItemCode:$('#txtItemCode').val(), txtPicIndex:i}, function (data,textStatus){
+	}	//function doFileUpload(sid){
+
+	//移除某張圖片
+	function doFileRemove(index){	//移除某張圖片
+		var mid	= "";
+		var pic	= "";
+		mid = $('#ServiceId').val();
+		if (index=='1')	pic = $('#ServiceIcon').val();
+		if (index=='2')	pic = $('#ServicePic').val();
+		if (beEmpty(pic)){
+			alert('此欄位無圖檔!');
+			return false;
+		}
+		$("#FileUploadStatus"+index).html('');
+
+		if (index=='1')	$('#ServiceIcon').val('');
+		if (index=='2')	$('#ServicePic').val('');
+		$('#img'+index).hide();
+		return false;
+
+		//注意：以下的動作先不做，改為使用者按確定按鈕後，在 server 端儲存資料時一併處理
+
+		var s = "URL=" + encodeURIComponent(pic);
+		showBlockUI();
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmMessagePicRemove.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: s,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					if (index=='1')	$('#ServiceIcon').val('');
+					if (index=='2')	$('#ServicePic').val('');
+					$('#img'+index).hide();
+				}else{
+					alert('作業失敗：' + ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+		return false;
+	}	//function doFileRemove(index){	//移除某張圖片
+	
+	//更新資料至 server 上
+	function doEdit(){	//更新資料
+		if (!$("#frmMain").valid()){
+			alert('某些欄位輸入錯誤');
+			return false;
+		}
+
+		//日期比較
+		var d1 = "";
+		var d2 = "";
+		d1 = $('#EffectDate').val();
+		d2 = $('#ExpireDate').val();
+		if (beEmpty(d1) || beEmpty(d2)){
+			alert('請輸入生效時間及失效時間');
+			return false;
+		}
+		if ((Date.parse(d1)).valueOf() > (Date.parse(d2)).valueOf()){
+			alert('生效時間不可大於失效時間');
+			return false;
+		}
+
+		if ($("input[name='ShowBanner']").is(":checked")){
+			if (beEmpty($('#ServicePic').val())){
+				alert('需先上傳服務大圖檔才能設定圖檔顯示於加值服務主頁');
+				return false;
+			}
+		}
+
+		// Find disabled inputs, and remove the "disabled" attribute
+		var disabled = $("#frmMain").find(':input:disabled').removeAttr('disabled');
+		var s = $('#frmMain').serialize();
+		// re-disabled the set of inputs that you previously enabled
+		disabled.attr('disabled','disabled');
+		showBlockUI();
+		//console.log(s);
+		//return;
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmVASServiceContentServiceSave.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: s,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					if ($('#jobType').val()=='a'){
+						_gaq.push(['_trackEvent', '新增加值內容服務', $('#ServiceId').val()+':'+$('#ServiceName').val(), $('#LoginId').val()]);	//紀錄至Google Analytics
+					}else{
+						_gaq.push(['_trackEvent', '修改加值內容服務', $('#ServiceId').val()+':'+$('#ServiceName').val(), $('#LoginId').val()]);	//紀錄至Google Analytics
+					}
+					alert('作業成功');
+				}else{
+					alert('作業失敗：' + ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+		return false;
+	}	//function doEdit(){	//更新資料
+</script>

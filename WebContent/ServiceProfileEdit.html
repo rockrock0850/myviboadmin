@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Soft Hued 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130831
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>台灣之星APP後台管理系統</title>
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+	<script src="js/ga.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="js/jquery.blockUI.js"></script>
+	<script src="js/util.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script><!--自動validate form欄位 plugin，參考網頁：http://www.minwt.com/js/1800.html -->
+	<!--<script type="text/javascript" src="js/cmxforms.js"></script>--><!--自動validate form欄位 plugin用的，格式化form元件，參考網頁：http://www.minwt.com/js/1800.html -->
+	<script type="text/javascript" src="js/ajaxfileupload.js"></script><!--檔案上傳用的，參考網頁：http://www.phpletter.com/Our-Projects/AjaxFileUpload/ -->
+	<script src="js/jquery-ui-timepicker-addon.js"></script> <!-- 將 JQuery UI 的 date picker 加上時間功能，請參考 http://trentrichardson.com/examples/timepicker/ -->
+	<script type="text/javascript" src="js/jquery.watermark.min.js"></script><!--在input text欄位顯示說明文字之用，參考網頁：https://code.google.com/p/jquery-watermark/-->
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<table><tr><td><h1><a href="index.jsp">台灣之星APP後台管理系統</a></h1></td><td class="headeruserid"><span id="FunctionName"></span><span>-</span></td><td class="headeruserid"><span id="LoginId"></span></td></tr></table>
+		</div>
+		<div id="mainmenu">
+			<ul id="mainmenuitem">
+				<!--
+				<li class="current_page_item"><a href="MessageQuery.html">訊息維護</a></li>
+				<li><a href="AccountSetting">權限設定</a></li>
+				<li><a href="#" onclick="doLogout();">登出</a></li>
+				-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="wrapper">
+	<div id="page" class="container">
+		<form class="cmxform" id="frmMain" name="frmMain">
+			<input type="hidden" id="jobType" name="jobType" value="">
+			<table cellspacing="10">
+				<tr><td style="color:#FF0000;">＊服務代碼</td>		<td><input type="text" id="ServiceId" name="ServiceId" class="required"></td></tr>
+				<tr><td style="color:#FF0000;">＊服務名稱</td>		<td><input type="text" id="ServiceName" name="ServiceName" class="required"></td></tr>
+				<tr><td>Google API Key</td>							<td><input type="text" id="GoogleAPIKey" name="GoogleAPIKey" size="50" maxlength="100"></td></tr>
+				<tr><td>GCM Sender ID(需設定於APP中)</td>			<td><input type="text" id="GCMSenderId" name="GCMSenderId" size="50" maxlength="50"></td></tr>
+				<tr><td>Apple APNS憑證檔名(正式環境，.p12檔)</td>	<td><input type="text" id="APNSCertNameProd" name="APNSCertNameProd" size="50" maxlength="200"></td></tr>
+				<tr><td>Apple APNS憑證密碼(正式環境)</td>			<td><input type="text" id="APNSCertPasswordProd" name="APNSCertPasswordProd" size="50" maxlength="20"></td></tr>
+				<tr><td>Apple APNS憑證檔名(測試環境，.p12檔)</td>	<td><input type="text" id="APNSCertNameTest" name="APNSCertNameTest" size="50" maxlength="200"></td></tr>
+				<tr><td>Apple APNS憑證密碼(測試環境)</td>			<td><input type="text" id="APNSCertPasswordTest" name="APNSCertPasswordTest" size="50" maxlength="20"></td></tr>
+				<tr><td style="color:#FF0000;">＊服務狀態</td>
+					<td>
+						<select id="Status" name="Status" class="required">
+							<option value="">請選擇</option>
+							<option value="0">服務測試</option>
+							<option value="1">已上線</option>
+						</select>
+					</td>
+				</tr>
+				<tr><td><input type="button" class="button" id="btnSubmit" name="btnSubmit" value="確定" onclick="doEdit();"></td><td><input type="reset" class="button" id="btnReset" name="btnReset" value="清除"></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+<div id="footer" class="container">
+	<div id="copyright" class="container">
+	<p>台灣之星電信版權所有 Copyright© 2014 Taiwan Star Telecom Co., Ltd. All Rights Reserved.&nbsp;&nbsp;&nbsp;&nbsp;(最佳解析度1280X800)</p>
+</div>
+</body>
+</html>
+
+
+<script>
+	$(function() {
+		//$(".button").button().click(function(event){event.preventDefault();});	//將class=button的物件做成 JQuery UI 的 button
+		$(".button").button();	//將class=button的物件做成 JQuery UI 的 button
+
+		getLoginId('服務維護');	//取得目前登入使用者的ID
+		
+		$('#frmMain').validate();	//將form套用自動validate form元件的JQuery plugin
+
+		setBasicInfo();	//若為新增服務，填入原始資料
+
+	});
+</script>
+
+<script>
+	//填入一些基本欄位，例如：ID、version、最後更新人員...
+	function setBasicInfo(){
+		var sid = getParameterByName('sid');
+
+		if (beEmpty(sid)){	//新增資料
+			$('#jobType').val('a');
+			return;
+		}else{	//修改既有資料
+			$('#jobType').val('e');
+		}	//if (beEmpty(mid)){	//新增資料
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmGetServiceList.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: 'sid=' + sid,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				alert ('系統忙碌中，無法取得訊息資料請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					$('#ServiceId').val($(xml).find("ServiceId").text());
+					$('#ServiceId').attr('disabled','disabled');	//這是primary key，不允許修改
+					$('#ServiceName').val($(xml).find("ServiceName").text());
+					$('#GoogleAPIKey').val($(xml).find("GoogleAPIKey").text());
+					$('#GCMSenderId').val($(xml).find("GCMSenderId").text());
+					$('#APNSCertNameProd').val($(xml).find("APNSCertNameProd").text());
+					$('#APNSCertPasswordProd').val($(xml).find("APNSCertPasswordProd").text());
+					$('#APNSCertNameTest').val($(xml).find("APNSCertNameTest").text());
+					$('#APNSCertPasswordTest').val($(xml).find("APNSCertPasswordTest").text());
+					$('#Status').val($(xml).find("Status").text());
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='<%=gcResultCodeSuccess%>'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}	//function setBasicInfo(){
+	
+	//更新資料至 server 上
+	function doEdit(){	//更新資料
+		if (!$("#frmMain").valid()){
+			alert('某些欄位輸入錯誤');
+			return false;
+		}
+
+		// Find disabled inputs, and remove the "disabled" attribute
+		var disabled = $("#frmMain").find(':input:disabled').removeAttr('disabled');
+		var s = $('#frmMain').serialize();
+		// re-disabled the set of inputs that you previously enabled
+		disabled.attr('disabled','disabled');
+		showBlockUI();
+		//console.log(s);
+		//return;
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmServiceSave.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: s,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					if ($('#jobType').val()=='a'){
+						_gaq.push(['_trackEvent', '新增服務', $('#ServiceId').val()+':'+$('#ServiceName').val(), $('#LoginId').val()]);	//紀錄至Google Analytics
+					}else{
+						_gaq.push(['_trackEvent', '修改服務', $('#ServiceId').val()+':'+$('#ServiceName').val(), $('#LoginId').val()]);	//紀錄至Google Analytics
+					}
+					alert('作業成功');
+				}else{
+					alert('作業失敗：' + ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+		return false;
+	}	//function doEdit(){	//更新資料
+</script>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"/WEB-INF/classes/struts-2.3.dtd">
+ 
+<struts>
+    <package name="struts2" extends="struts-default" >
+    	<result-types>
+		    <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+		</result-types>
+
+		<interceptors>
+			<interceptor name="log" class="com.tstar.interceptor.LogInterceptor" />
+	
+			<interceptor-stack name="interceptorStack">
+				<interceptor-ref name="log"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+        
+        <!-- 此默認interceptor是針對所有action的 -->
+        <!-- 如果某個action中引入了interceptor, 則在這個action中此默認interceptor就會失效 -->
+        <default-interceptor-ref name="interceptorStack"></default-interceptor-ref>
+        
+        <action name="selectListMtn" class="com.tstar.action.SelectListMtnAction">
+            <result name="success">/jsp/selectListMtn.jsp</result>
+        </action>
+        
+        <action name="addSelectList" class="com.tstar.action.SelectListMtnAction" method="add">
+            <result name="success">/jsp/selectListMtn.jsp</result>
+        </action>
+        
+        <action name="updateSelectList" class="com.tstar.action.SelectListMtnAction" method="update">
+            <result name="success">/jsp/selectListMtn.jsp</result>
+        </action>
+        
+        <action name="addGroupSelectList" class="com.tstar.action.SelectListMtnAction" method="addGroup">
+            <result name="success">/jsp/selectListMtn.jsp</result>
+        </action>
+		
+        <action name="comparsionP2" class="comparsionAction">
+            <result name="success">/jsp/comparsion/compareProjectP2.jsp</result>
+        </action>
+        
+        <action name="comparebybsc" class="comparsionAction" method="comparebybsc">
+			<result name="success">/jsp/comparsion/compareProjectP2.jsp</result>
+            <result name="comparsion" type="chain">comparsionP2</result>
+		</action>
+            
+		<!-- 2015/07/14 -->
+		<action name="presetCompare" class="presetCompareAction">
+            <result name="success">/jsp/comparsion/presetCompare.jsp</result>
+        </action>
+		<!-- 2015/07/14 -->
+		<action name="changePresetData" class="presetCompareAction" method="changeData">
+            <result name="success">/jsp/comparsion/presetCompare.jsp</result>
+        </action>
+        <!-- 2015/07/14 -->
+		<action name="changeProtectWord" class="presetCompareAction" method="changeProtecWord">
+            <result name="success" >/jsp/comparsion/presetCompare.jsp</result>
+        </action>
+<!--         2015/10/19 -->
+        <action name="updateExcelData" class="presetCompareAction" method="updateExcelData">
+<!--             防止網頁Refresh的時候Struts自動Submit的情況，使用redirectAction+actionName解決. -->
+            <result name="success" type='redirectAction'>
+        		<param name="actionName">presetCompare</param>
+        		<param name="popMessage">${popMessage}</param>
+        		<param name="rtnJson">${rtnJson}</param>
+   		    </result>
+        </action>
+<!--         2015/10/19 -->
+        <action name="rollbackExcelData" class="presetCompareAction" method="rollbackExcelData">
+<!--             防止網頁Refresh的時候Struts自動Submit的情況，使用redirectAction+actionName解決. -->
+            <result name="success" type='redirectAction'>
+        		<param name="actionName">presetCompare</param>
+        		<param name="popMessage">${popMessage}</param>
+        		<param name="rtnJson">${rtnJson}</param>
+   		    </result>
+        </action>
+        
+		<action name="reservation" class="ReservationActionSpring">
+			<result name="success">/jsp/reservation.jsp</result>
+		</action>
+		
+		<action name="qryCompareData" class="editCompareDataAction">
+			<result name="success">/jsp/editCompare/queryCompareData.jsp</result>
+		</action>
+		
+		<action name="editCompareData" class="editCompareDataAction" method="editData">
+			<result name="success">/jsp/editCompare/editCompareData.jsp</result>
+		</action>
+		
+		<action name="saveCompareData" class="editCompareDataAction" method="saveData">
+			<result name="success">/jsp/editCompare/queryCompareData.jsp</result>
+		</action>
+		
+		<action name="queryCompareDevice" class="compareDeviceAction">
+			<result name="success">/jsp/comparsion/queryCompareDevice.jsp</result>
+		</action>
+		
+		<action name="editCompareDevice" class="compareDeviceAction">
+			<result name="success">/jsp/comparsion/editCompareDevice.jsp</result>
+		</action>
+		
+		<action name="saveCompareDevice" class="compareDeviceAction" method="saveData">
+			<result name="success">/jsp/comparsion/queryCompareDevice.jsp</result>
+		</action>
+		
+		<action name="queryDevice" class="queryDeviceAction">
+			<result name="success">/jsp/editCompare/queryDevice.jsp</result>
+		</action>
+		
+		<action name="saveDevice" class="queryDeviceAction" method="saveData">
+			<result name="success">/jsp/editCompare/queryDevice.jsp</result>
+		</action>
+		
+		<action name="memberCenter" class="memberCenterAction">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<!-- APP首頁資訊維護頁 -->
+		<action name="queryApp" class="queryAppAction">
+			<result name="success">/jsp/queryApp/queryApp.jsp</result>
+		</action>
+		<!-- APP首頁資訊查詢結果 -->
+		<action name="queryAppList" class="queryAppAction" method="queryList">
+			<result name="success">/jsp/queryApp/queryAppList.jsp</result>
+		</action>
+		<!-- APP首頁資訊更新 -->
+		<action name="updateAppList" class="queryAppAction" method="update">
+			<result name="success">/jsp/queryApp/queryApp.jsp</result>
+		</action>
+		<!-- 推廣頁面url資料更新 -->
+		<action name="saveMkturl" class="queryAppAction" method="SaveMktUrl">
+			<result name="success">/jsp/queryApp/queryApp.jsp</result>
+		</action>
+		<action name="sendSms" class="sendSmsAction"></action>
+		<!--首登調查輸入key查詢 -->
+		<action name="querySurvey" class="queryAppSurveyAction">
+			<result name="success">/jsp/appSurvey/SurveyFirst.jsp</result>
+		</action>
+		<!--首登調查FORM-->
+		<action name="querySurveyKey" class="queryAppSurveyAction" method="queryList">
+			<result name="success">/jsp/appSurvey/SurveyFirstResult.jsp</result>
+			<result name="none">/jsp/appSurvey/SurveyFirst.jsp</result>
+		</action>
+		<!--首登調查資料插入-->
+		<action name="querySurveyKeySave" class="queryAppSurveyAction" method="savedata">
+			<result name="success">/jsp/appSurvey/SurveyFirst.jsp</result>
+		</action>
+		<action name="comRefConditon" class="commercialReferenceConditionAction" >
+			<result name="success">/jsp/comRef/queryComRef.jsp</result>
+		</action>
+		<action name="comRefConditonResult" class="commercialReferenceConditionAction" method="queryList">
+			<result name="success">/jsp/comRef/queryComRef.jsp</result>
+		</action>
+		<action name="comRefChange" class="commercialReferenceConditionAction" method="changeStatus">
+			<result name="success">/jsp/comRef/queryComRef.jsp</result> 			
+		</action>
+		<action name="comRefReport" class="commercialReferenceReportAction" >
+			<result name="success">/jsp/comRef/queryComRefReport.jsp</result>
+		</action>
+		<action name="comRefReportDownloadExcel" class="commercialReferenceReportAction" method="downloadExcel">
+			<result name="success">/jsp/comRef/queryComRefReport.jsp</result>
+		</action>
+		<action name="bwListCondition" class="filterListActionConditionAction" >
+			<result name="success">/jsp/wbList/wbListQuery.jsp</result>
+		</action>
+		<action name="bwListConditionResult" class="filterListActionConditionAction" method="queryList">
+			<result name="success">/jsp/wbList/wbListQuery.jsp</result>
+		</action>
+		<action name="bwListChange" class="filterListActionConditionAction" method="changeStatus">
+			<result name="success">/jsp/wbList/wbListQuery.jsp</result>
+		</action>
+		<action name="bwListAdd" class="filterListActionConditionAction" >
+			<result name="success">/jsp/wbList/addFilter.jsp</result>
+		</action>
+		<action name="bwListinsert" class="filterListActionConditionAction" method="insertdata">
+			<result name="success">/jsp/wbList/wbListQuery.jsp</result>
+		</action>
+		<action name="surveyQueryForm" class="querySurveyFormAction">
+			<result name="success">/jsp/SurveyQuery/surveyResult.jsp</result>
+		</action>
+		<action name="surveyQueryFormdata" class="querySurveyFormAction" method="queryList">
+			<result name="success">/jsp/SurveyQuery/surveyResult.jsp</result>
+		</action>
+		<action name="addFormdata" class="surveyFormDataAction">
+			<result name="success">/jsp/SurveyQuery/addsurveyFormdata.jsp</result>
+		</action>
+		<action name="insertFormdata" class="surveyFormDataAction" method="insertFormdata">
+			<result name="success">/jsp/SurveyQuery/surveyFormResult.jsp</result>
+		</action>
+		<action name="queryFormdataCondition" class="surveyFormDataAction" method="condition">
+			<result name="success">/jsp/SurveyQuery/surveyFormResult.jsp</result>
+		</action>
+		<action name="queryFormdata" class="surveyFormDataAction" method="queryList">
+			<result name="success">/jsp/SurveyQuery/surveyFormResult.jsp</result>
+		</action>
+		<action name="changeFormdataStatus" class="surveyFormDataAction" method="changestatus">
+			<result name="success">/jsp/SurveyQuery/surveyFormResult.jsp</result>
+		</action>
+		<action name="updateFormdata" class="surveyFormDataAction" method="preupdate">
+			<result name="success">/jsp/SurveyQuery/addsurveyFormdata.jsp</result>
+		</action>
+		<action name="doUpdateFormdata" class="surveyFormDataAction" method="update">
+			<result name="success">/jsp/SurveyQuery/surveyFormResult.jsp</result>
+		</action>
+		<!-- 第一版比一比 -->
+		<action name="comparsion" class="com.tstar.action.ComparsionP1Action">
+            <result name="success">/jsp/compareProject/comparisonPhase1.jsp</result>
+        </action>
+        
+        <action name="compare" class="com.tstar.action.ComparsionP1Action" method="compare">
+            <result name="success">/jsp/compareProject/comparisonPhase1.jsp</result>
+        </action>
+		<!-- 第一版比一比 -->
+		<action name="tsp" class="tspAction">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="contentCharSet">UTF-8</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<action name="healthCheck" class="healthCheckAction">
+            <result name="success">/jsp/healthCheck/check.jsp</result>
+        </action> 
+    </package>
+	<package name="ajax" extends="json-default">
+		<action name="reserve" class="ReservationActionSpring" method="reserve">
+			<result type="json"></result>
+		</action>
+		<action name="serviceStatus" class="serviceStatusAction">
+			<result type="json"></result>
+		</action>
+		<!-- APP最新消息 -->
+		<action name="adMessageList" class="adMessageListAction">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<!-- APP版本資訊 -->
+		<action name="appVersionInfo" class="systemLookupAction">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="queryAppSystemKey" class="systemLookupAction" method="queryAppSystemKey">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="queryAppSystemTime" class="systemLookupAction" method="queryAppSystemTime">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="filterList" class="filterListAction">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="getAppUser" class="sendPushMessageAction" method="queryPushMessageUser">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="checkProjectRateId" class="compareDeviceAction" method="checkProjectRateId">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+<!-- 		查詢所有專案清單 -->
+		<action name="projectList" class="comparsionAction" method="projectList">
+			<result type="json">
+				<param name="root">rtnJson</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="netSwitch" class="comparsionAction" method="netSwitch">
+			<result type="json">
+				<param name="root">rtnJson</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<!-- 2015/07/14 -->
+		<action name="presetvalue" class="presetCompareAction" method="presetvalue">
+			<result type="json">
+				<param name="root">rtnJson</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="uploadDone" class="presetCompareAction" method="uploadDone">
+			<result type="json">
+				<param name="root">rtnJson</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+<!-- 		2015/10/19 -->
+        <action name="getExcelFileName" class="presetCompareAction" method="getExcelFileName">
+			<result type="json">
+				<param name="root">rtnJson</param>
+				<param name="noCache">true</param>
+			</result>
+        </action>
+		<!-- 2015/07/14 -->
+		<action name="wordvalue" class="presetCompareAction" method="wordvalue">
+			<result type="json">
+				<param name="root">rtnJson</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+	</package>   
+	<package name="pushmsg" extends="json-default">
+		<interceptors>
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="json">
+					<param name="enableSMD">true</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<action name="sendPushMessage" class="sendPushMessageAction">
+			<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="pushMsgQuery" class="pushMsgQueryAction">
+       		<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="pushMsgDelete" class="pushMsgQueryAction" method="deleteMessage">
+       		<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="commercialReference" class="commercialReferenceAction">
+       		<result type="json">
+				<param name="root">jsonStr</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<!-- 訊號上傳 -->
+		<action name="addSignalRawData" class="signalRawDataAction">
+			<result type="json"></result>
+		</action>
+		<!-- 查詢訊號資料 -->
+		<action name="queryCellStrength" class="signalRawDataAction" method="queryCellStrength">
+			<result type="json"></result>
+		</action>
+	</package>
+	<package name="struts_Ajax_code" extends="json-default">   
+       <!-- 文件上传 -->           
+       <action name="fileAction" class="queryAppAction" method="fileUpload">
+            <result type="json" name="success">   
+                 <param name="contentType">text/html</param>   
+            </result>  
+        </action>  
+        <action name="formdatafileAction" class="surveyFormDataAction" method="fileUpload">
+            <result type="json" name="success">   
+                 <param name="contentType">text/html</param>   
+            </result>  
+        </action> 
+   </package>
+   
+   <include file="struts-tsp.xml"></include>
+   <constant name="struts.multipart.saveDir" value="/AP/tomcat/tmp"></constant>
+</struts>

@@ -1,0 +1,17 @@
+table.tablesorter th {
+	padding-left: 22px;
+	background-position: left center;
+}
+
+table.tablesorter .header {
+	background-image: url(tablesorter-bg.gif);
+	background-repeat: no-repeat;
+}
+table.tablesorter .headerSortUp {
+	background-image: url(tablesorter-asc.gif);
+	background-repeat: no-repeat;
+}
+table.tablesorter .headerSortDown {
+	background-image: url(tablesorter-desc.gif);
+	background-repeat: no-repeat;
+}

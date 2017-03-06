@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Soft Hued 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130831
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>台灣之星APP後台管理系統</title>
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+	<script src="js/ga.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="js/jquery.blockUI.js"></script>
+	<script src="js/util.js"></script>
+	<script src="js/jquery-ui-timepicker-addon.js"></script> <!-- 將 JQuery UI 的 date picker 加上時間功能，請參考 http://trentrichardson.com/examples/timepicker/ -->
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<table><tr><td><h1><a href="index.jsp">台灣之星APP後台管理系統</a></h1></td><td class="headeruserid"><span id="FunctionName"></span><span>-</span></td><td class="headeruserid"><span id="LoginId"></span></td></tr></table>
+		</div>
+		<div id="mainmenu">
+			<ul id="mainmenuitem">
+				<!--
+				<li class="current_page_item"><a href="MessageQuery.html">訊息維護</a></li>
+				<li><a href="AccountSetting">權限設定</a></li>
+				<li><a href="#" onclick="doLogout();">登出</a></li>
+				-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="wrapper">
+	<div id="page" class="container">
+		<a href="VASServiceContentServiceEdit.html" class="button">新增</a>&nbsp;<input type="button" class="button" value="重新排序(請先使用滑鼠左鍵拖拉各服務列資料)" onclick="doReorder();">
+		<table id="tblResult" name="tblResult" class="hasBorder" style="margin-top:20px;">
+			<thead>
+				<tr>
+					<th>服務代碼</th>
+					<th>服務名稱</th>
+					<th>所屬類別</th>
+					<th>服務提供商(CP)</th>
+					<th>支援平台</th>
+					<th>服務類型</th>
+					<th>生效時間</th>
+					<th>失效時間</th>
+					<th>狀態</th>
+					<th>排序</th>
+					<th>修改</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div id="footer" class="container">
+	<div id="copyright" class="container">
+	<p>台灣之星電信版權所有 Copyright© 2014 Taiwan Star Telecom Co., Ltd. All Rights Reserved.&nbsp;&nbsp;&nbsp;&nbsp;(最佳解析度1280X800)</p>
+</div>
+</body>
+</html>
+
+
+<script>
+	$(function() {
+		//$(".button").button().click(function(event){event.preventDefault();});	//將class=button的物件做成 JQuery UI 的 button
+		$(".button").button();	//將class=button的物件做成 JQuery UI 的 button
+
+		getLoginId('加值內容服務維護');	//取得目前登入使用者的ID
+		
+		getServiceList();
+	});
+</script>
+
+<script>
+	function getServiceList(){	//搜尋資料
+		$('#tblResult tbody').html('');
+		showBlockUI();
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmGetVASServiceContentServiceList.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: '',
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					var ss = "";
+					$(xml).find("item").each( function() {
+						ss += "<tr id='" + $(this).children("ServiceId").text() + "'>";
+						ss += "<td>" + $(this).children("ServiceId").text() + "</td>";
+						ss += "<td>" + $(this).children("ServiceName").text() + "</td>";
+						ss += "<td>" + $(this).children("CategoryName").text() + "</td>";
+						ss += "<td>" + $(this).children("Vendor").text() + "</td>";
+						if (notEmpty($(this).children("Platform").text()) && $(this).children("Platform").text()=="0") ss += "<td>都可支援</td>";
+						if (notEmpty($(this).children("Platform").text()) && $(this).children("Platform").text()=="1") ss += "<td>Android限定</td>";
+						if (notEmpty($(this).children("Platform").text()) && $(this).children("Platform").text()=="2") ss += "<td>iOS限定</td>";
+						if (beEmpty($(this).children("Platform").text())) ss += "<td style='color=#FF0000;'>未知</td>";
+						if (notEmpty($(this).children("ServiceType").text()) && $(this).children("ServiceType").text()=="1") ss += "<td>APP</td>";
+						if (notEmpty($(this).children("ServiceType").text()) && $(this).children("ServiceType").text()=="2") ss += "<td>網頁</td>";
+						if (beEmpty($(this).children("ServiceType").text())) ss += "<td style='color=#FF0000;'>未知</td>";
+						ss += "<td>" + $(this).children("EffectDate").text() + "</td>";
+						ss += "<td>" + $(this).children("ExpireDate").text() + "</td>";
+						if (notEmpty($(this).children("Status").text()) && $(this).children("Status").text()=="0") ss += "<td>不露出</td>";
+						if (notEmpty($(this).children("Status").text()) && $(this).children("Status").text()=="1") ss += "<td style='background-color:#F4FA58;'>露出</td>";
+						if (beEmpty($(this).children("Status").text())) ss += "<td style='color=#FF0000;'>未知</td>";
+						ss += "<td>" + $(this).children("SortOrder").text() + "</td>";
+						ss += "<td><a href='#' onclick=\"doEdit('" + $(this).children("ServiceId").text() + "');return false;\">編輯</a></td>";
+						ss += "<td><a href='#' onclick=\"doDelete('" + $(this).children("ServiceId").text() + "', '" + $(this).children("ServiceName").text() + "');return false;\">刪除</a></td>";
+						ss += "</tr>";
+					});
+					$('#tblResult tbody').html(ss);
+					$('#tblResult tbody').sortable();
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+		return false;
+	}	//function doSearch(){	//搜尋資料
+
+	function doEdit(sid){	//編輯資料
+		location.href="VASServiceContentServiceEdit.html?sid=" + sid;
+		return false;
+	}	//function doEdit(){	//編輯資料
+
+	function doDelete(sid, name){	//刪除資料
+		$('#tblResult tbody tr').each( function() {
+			//alert($(this).find('td').eq(0).text());
+			if ($(this).find('td').eq(0).text()==sid) $(this).css('background-color', '#FEEEBD');
+			else $(this).css('background-color', '#FFFFFF');
+		});
+		if (!confirm('確定刪除此筆資料？')) return false;
+		showBlockUI();
+		var s = 'ServiceId=' + sid;
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmVASServiceContentServiceDelete.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: s,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					_gaq.push(['_trackEvent', '刪除加值內容類別服務', sid+':'+name, $('#LoginId').text()]);	//紀錄至Google Analytics
+					$('#tblResult tbody tr').each( function() {
+						//alert($(this).find('td').eq(0).text());
+						if ($(this).find('td').eq(0).text()==sid) $(this).remove();
+					});
+					alert('作業成功');
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+		return false;
+	}	//function doDelete(){	//刪除資料
+
+	function doReorder(){	//重新排序
+		var sorted = $('#tblResult tbody').sortable( "toArray" );
+		//alert(sorted);
+
+		showBlockUI();
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmVASServiceContentServiceReorder.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: 'order=' + sorted,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					alert("作業成功，將重新查詢資料!");
+					//doSearch();
+					window.location.reload();
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}
+
+</script>

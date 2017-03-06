@@ -1,0 +1,11 @@
+build/
+
+src/.gitignore
+
+.settings/
+
+.project
+
+.tern-project
+
+.classpath

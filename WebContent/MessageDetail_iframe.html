@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Soft Hued 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130831
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>台灣之星APP後台管理系統</title>
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+	<script src="js/ga.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="js/jquery.blockUI.js"></script>
+	<script src="js/util.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script><!--自動validate form欄位 plugin，參考網頁：http://www.minwt.com/js/1800.html -->
+	<!--<script type="text/javascript" src="js/cmxforms.js"></script>--><!--自動validate form欄位 plugin用的，格式化form元件，參考網頁：http://www.minwt.com/js/1800.html -->
+	<script type="text/javascript" src="js/ajaxfileupload.js"></script><!--檔案上傳用的，參考網頁：http://www.phpletter.com/Our-Projects/AjaxFileUpload/ -->
+	<script src="js/jquery-ui-timepicker-addon.js"></script> <!-- 將 JQuery UI 的 date picker 加上時間功能，請參考 http://trentrichardson.com/examples/timepicker/ -->
+</head>
+<body>
+<div id="wrapper">
+	<div id="page" class="container">
+		<form class="cmxform" id="frmMain" name="frmMain">
+			<input type="hidden" id="jobType" name="jobType" value="">
+			<input type="hidden" id="CurrentUser" name="CurrentUser" value="">
+			<table cellspacing="10">
+				<tr><td>ID</td><td><input type="text" id="MessageId" name="MessageId" disabled></td><td>version</td><td><input type="text" id="VersionNo" name="VersionNo" disabled></td></tr>
+				<tr><td>狀態</td><td colspan="3"><input type="text" id="StatusText" name="StatusText" disabled><input type="hidden" id="Status" name="Status"></td></tr>
+				<tr><td>最後更新人員</td><td><input type="text" id="LastModifiedPerson" name="LastModifiedPerson" disabled></td><td>最後更新日期</td><td><input type="text" id="LastModifiedDate" name="LastModifiedDate" disabled></td></tr>
+				<tr><td>服務名稱</td><td colspan="3"><input type="text" id="ServiceId" name="ServiceId" size="50" maxlength="30"></td></tr>
+				<tr><td style="color:#FF0000;">＊標題</td><td colspan="3"><input type="text" id="Subject" name="Subject" class="required" size="50" maxlength="30"></td></tr>
+				<!--
+				<tr><td>標題圖檔</td><td colspan="3">
+					    <input type="text" id="SubjectPic" name="SubjectPic" disabled>
+					    <input type="file" name="filePath1" id="filePath1"/>
+					    <input type="button" name="fileUpload1" id="fileUpload1" onclick="doFileUpload('1');" value="上傳" />
+					    <span id="FileUploadStatus1"></span>
+					</td></tr>
+				-->
+				<tr><td>標題圖檔預覽</td><td colspan="3"><img id="img1" name="img1"></td></tr>
+				<tr><td>小標1</td><td colspan="3"><input type="text" id="SubText1" name="SubText1" size="50" maxlength="30"></td></tr>
+				<tr><td>小標2</td><td colspan="3"><input type="text" id="SubText2" name="SubText2" size="50" maxlength="30"></td></tr>
+				<tr><td>內文</td><td colspan="3"><textarea id="BodyText" name="BodyText" rows="4" cols="50"></textarea></td></tr>
+				<!--
+				<tr><td>內文圖檔</td><td colspan="3">
+					    <input type="text" id="BodyPic" name="BodyPic" disabled>
+					    <input type="file" name="filePath2" id="filePath2"/>
+					    <input type="button" name="fileUpload2" id="fileUpload2" onclick="doFileUpload('2');" value="上傳" />
+					    <span id="FileUploadStatus2"></span>
+					</td></tr>
+				-->
+				<tr><td>內文圖檔預覽</td><td colspan="3"><img id="img2" name="img2"></td></tr>
+				<tr><td>可縮式內文</td><td colspan="3"><textarea id="BodyText2" name="BodyText2" rows="4" cols="50"></textarea></td></tr>
+				<tr><td>連結URL</td><td colspan="3"><input type="text" id="LinkURL" name="LinkURL" size="50" maxlength="255"></td></tr>
+				<tr><td style="color:#FF0000;">＊生效時間</td><td><input type="text" id="EffectDate" name="EffectDate" class="required"></td><td style="color:#FF0000;">＊失效時間</td><td><input type="text" id="ExpireDate" name="ExpireDate" class="required"></td></tr>
+				<tr><td><input type="checkbox" id="ShowNewEvent" name="ShowNewEvent">&nbsp;顯示於最新活動</td><td>&nbsp;</td><td><input type="checkbox" id="ShowProgram" name="ShowProgram">&nbsp;顯示於優惠方案</td><td>&nbsp;</td></tr>
+				<tr><td><input type="checkbox" id="ShowPushMessage" name="ShowPushMessage">&nbsp;顯示於訊息提醒</td><td colspan="3">&nbsp;</td></tr>
+
+				<tr><td colspan="4">
+					<div id="tabs1">
+						<ul>
+							<li><a href="#tabs-1">首頁</a></li>
+						</ul>
+						<div id="tabs-1">
+							<table>
+								<tr><td colspan="4"><input type="checkbox" id="ShowHomeBanner" name="ShowHomeBanner">&nbsp;圖檔顯示於首頁</td></tr>
+								<tr><td>生效時間</td><td><input type="text" id="EffectDateHome" name="EffectDateHome"></td><td>失效時間</td><td><input type="text" id="ExpireDateHome" name="ExpireDateHome"></td></tr>
+							</table>
+						</div>
+					</div>
+					</td></tr>
+					
+				<tr><td colspan="4">
+					<div id="tabs2">
+						<ul>
+							<li><a href="#tabs-2">熱門推薦</a></li>
+						</ul>
+						<div id="tabs-2">
+							<table>
+								<tr>
+									<td><input type="checkbox" id="ShowRecommand" name="ShowRecommand">&nbsp;圖檔顯示於熱門推薦</td>
+									<td colspan="4"><input type="checkbox" id="ShowSnowLeopard" name="ShowSnowLeopard">&nbsp;圖檔顯示於雪豹圖示</td>
+								</tr>
+<!-- 								<tr><td>生效時間</td><td><input type="text" id="EffectDateRecommand" name="EffectDateRecommand"></td><td>失效時間</td><td><input type="text" id="ExpireDateRecommand" name="ExpireDateRecommand"></td></tr> -->
+							</table>
+						</div>
+					</div>
+					</td></tr>
+				<!--<tr><td><input type="button" class="button" id="btnSubmit" name="btnSubmit" value="確定" onclick="doEdit();"></td><td><input type="reset" class="button" id="btnReset" name="btnReset" value="清除"></td></tr>-->
+			</table>
+		</form>
+	</div>
+</div>
+</body>
+</html>
+
+
+<script>
+	$(function() {
+		//$(".button").button().click(function(event){event.preventDefault();});	//將class=button的物件做成 JQuery UI 的 button
+		$(".button").button();	//將class=button的物件做成 JQuery UI 的 button
+		
+		$( "#tabs1" ).tabs();
+		$( "#tabs2" ).tabs();
+		
+		setBasicInfo();	//填入一些基本欄位，例如：ID、version、最後更新人員...
+	});
+</script>
+
+<script>
+	//填入一些基本欄位，例如：ID、version、最後更新人員...
+	function setBasicInfo(){
+		var mid = getParameterByName('mid');
+
+		if (beEmpty(mid)){	//新增資料
+			$('#jobType').val('a');
+		}else{	//修改既有資料
+			$('#jobType').val('e');
+		}	//if (beEmpty(mid)){	//新增資料
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmGetBasicMessageInfo.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: 'mid=' + mid,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				alert ('系統忙碌中，無法取得訊息資料請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					$('#CurrentUser').val($(xml).find("CurrentUser").text());
+					$('#MessageId').val($(xml).find("MessageId").text());
+					$('#VersionNo').val($(xml).find("VersionNo").text());
+					if ($(xml).find("Status").text()=='0') $('#StatusText').val('未上線');
+					if ($(xml).find("Status").text()=='1') $('#StatusText').val('已上線');
+					$('#Status').val($(xml).find("Status").text());
+					$('#LastModifiedPerson').val($(xml).find("LastModifiedPerson").text());
+					$('#LastModifiedDate').val($(xml).find("LastModifiedDate").text());
+					if (notEmpty(mid)){	//修改既有資料
+						$('#Subject').val($(xml).find("Subject").text());
+						//$('#SubjectPic').val($(xml).find("SubjectPic").text());
+						$('#img1').attr('src', $(xml).find("SubjectPic").text());
+						$('#SubText1').val($(xml).find("SubText1").text());
+						$('#SubText2').val($(xml).find("SubText2").text());
+						$('#BodyText').html($(xml).find("BodyText").text());
+						//$('#BodyPic').val($(xml).find("BodyPic").text());
+						$('#img2').attr('src', $(xml).find("BodyPic").text());
+						$('#BodyText2').html($(xml).find("BodyText2").text());
+						$('#LinkURL').val($(xml).find("LinkURL").text());
+						$('#EffectDate').val($(xml).find("EffectDate").text());
+						$('#ExpireDate').val($(xml).find("ExpireDate").text());
+						if (notEmpty($(xml).find("ShowNewEvent").text()) && $(xml).find("ShowNewEvent").text()=="Y") $('#ShowNewEvent').attr('checked', 'checked');
+						if (notEmpty($(xml).find("ShowProgram").text()) && $(xml).find("ShowProgram").text()=="Y") $('#ShowProgram').attr('checked', 'checked');
+						if (notEmpty($(xml).find("ShowPushMessage").text()) && $(xml).find("ShowPushMessage").text()=="Y") $('#ShowPushMessage').attr('checked', 'checked');
+						if (notEmpty($(xml).find("ShowHomeBanner").text()) && $(xml).find("ShowHomeBanner").text()=="Y") $('#ShowHomeBanner').attr('checked', 'checked');
+						if (notEmpty($(xml).find("ShowRecommand").text()) && $(xml).find("ShowRecommand").text()=="Y") $('#ShowRecommand').attr('checked', 'checked');
+						if (notEmpty($(xml).find("ShowSnowLeopard").text()) && $(xml).find("ShowSnowLeopard").text()=="Y") $('#ShowSnowLeopard').attr('checked', 'checked');
+						$('#EffectDateHome').val($(xml).find("EffectDateHome").text());
+						$('#ExpireDateHome').val($(xml).find("ExpireDateHome").text());
+						$('#EffectDateRecommand').val($(xml).find("EffectDateRecommand").text());
+						$('#ExpireDateRecommand').val($(xml).find("ExpireDateRecommand").text());
+						$('#ServiceId').val($(xml).find("ServiceId").text());
+					}	//if (notEmpty(mid)){	//修改既有資料
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='<%=gcResultCodeSuccess%>'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}	//function setBasicInfo(){
+	
+</script>

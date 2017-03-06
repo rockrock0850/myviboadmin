@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<html><!-- InstanceBegin template="/Templates/basic_layout.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<title>資費比一比</title>
+<link type="text/css" rel="stylesheet" href="css/c_default.css" />
+<script src="javascript/jquery.min.js"></script>
+<script src="javascript/c_default.js"></script>
+</head>
+<body>
+<div class="main_doc">
+	<section>
+		<ul class="n_tab" tab-switch="my-tab">
+			<li class="active">手機專案</li>
+			<li>單門號</li>
+		</ul>
+		<div tab-target="my-tab">
+			<div class="tab_content with_phone">
+				<div class="separator">
+					<div class="n_row">
+						<label style="width:85px; padding:0;">申裝類別 :</label>
+						<label class="n_label"><input type="radio" name="bb" checked="checked">新用戶</label>
+						<label class="n_label"><input type="radio" name="bb">攜碼</label>
+					</div>
+				</div>
+				<div class="separator">
+					<div class="separator_title">您目前使用的電信業者：</div>
+					<div class="n_row">
+						<span class="custom_select">
+							<select style="width:290px; box-sizing:border-box;">
+								<option >請選擇其他電信業者</option>
+								<option selected="selected">台灣大哥大</option>
+							</select>
+						</span>
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">資費類型 :</label>
+						<span class="custom_select">
+							<select style="width:201px; box-sizing:border-box;">
+								<option >請選擇資費類型</option>
+								<option selected="selected">4G</option>
+							</select>
+						</span>
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">資費範圍 :</label>
+						<span class="custom_select">
+							<select style="width:201px; box-sizing:border-box;">
+								<option >資費範圍</option>
+								<option selected="selected">高資費</option>
+							</select>
+						</span>
+						<div style="height:6px;"></div>
+						<label style="width:85px; padding:0;"></label>
+						<span class="custom_select">
+							<select style="width:201px; box-sizing:border-box;">
+								<option >選擇資費</option>
+								<option selected="selected">901~1100</option>
+							</select>
+						</span>
+					</div>
+				</div>
+				<div class="separator">
+					<div class="separator_title">請輸入您每月平均用量：</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">約期 :</label>
+						<span class="custom_select">
+							<select style="width:201px; box-sizing:border-box;">
+								<option >請選擇</option>
+								<option selected="selected">30</option>
+							</select>
+						</span>
+					</div>
+					<div class="n_row">
+						<label style="width: 85px; padding: 0;">選擇資費 :</label>
+						<span class="custom_select">
+							<select>
+								<option value="">自動選擇最佳方案</option>
+								<option value="" selected="selected">4G_新4代_999</option>
+							</select>
+						</span>
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網內 :</label>
+						<input placeholder="分鐘" type="text" style="width:201px; box-sizing:border-box;" value='70' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網外 :</label>
+						<input placeholder="分鐘" type="text" style="width:201px; box-sizing:border-box;" value='120' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">市話 :</label>
+						<input placeholder="分鐘" type="text" style="width:201px; box-sizing:border-box;" value='15' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">上網傳輸量 :</label>
+						<input placeholder="GB" type="text" style="width:201px; box-sizing:border-box;" value='15' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網內簡訊 :</label>
+						<input placeholder="則" type="text" style="width:201px; box-sizing:border-box;" value='10' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網外簡訊 :</label>
+						<input placeholder="則" type="text" style="width:201px; box-sizing:border-box;" value='15' />
+					</div>
+				</div>
+				<div class="separator">
+					<div class="separator_title">請選擇您想搭配的手機：</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">手機 :</label>
+						<span class="custom_select">
+							<select id='select' style="width:201px; box-sizing:border-box;">
+								<option >請選擇</option>
+								<option selected="selected">iPhone6s(64G)</option>
+								<option >iPhone6s Plus(64G)</option>
+							</select>
+						</span>
+					</div>
+				</div>
+				<div class="submit_po">
+					<input class="submit" type="submit" href='#' value="確認送出" onclick="Run('select')">
+				</div>
+			</div>
+			<div class="tab_content without_phone">
+				<!--<div class="separator">
+					<div class="n_row">
+						<label style="width:85px; padding:0;">申裝類別 :</label>
+						<label class="n_label"><input type="radio" name="bbb" checked="checked">手機專案價</label>
+						<label class="n_label"><input type="radio" name="bbb">單門號</label>
+					</div>
+				</div>-->
+				<div class="separator">
+					<div class="n_row">
+						<label style="width:85px; padding:0;">資費類型 :</label>
+						<span class="custom_select">
+							<select style="width:201px; box-sizing:border-box;">
+								<option >請選擇資費類型</option>
+								<option selected="selected">4G</option>
+							</select>
+						</span>
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">資費範圍 :</label>
+						<span class="custom_select">
+							<select style="width:201px; box-sizing:border-box;">
+								<option >資費範圍</option>
+								<option selected="selected">中資費</option>
+							</select>
+						</span>
+						<div style="height:6px;"></div>
+						<label style="width:85px; padding:0;"></label>
+						<span class="custom_select">
+							<select style="width:201px; box-sizing:border-box;">
+								<option >選擇資費</option>
+								<option selected="selected">700以下</option>
+							</select>
+						</span>
+					</div>
+				</div>
+				<div class="separator">
+					<div class="separator_title">請輸入您每月平均用量：</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網內 :</label>
+						<input placeholder="分鐘" type="text" style="width:201px; box-sizing:border-box;" value='65' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網外 :</label>
+						<input placeholder="分鐘" type="text" style="width:201px; box-sizing:border-box;" value='25' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">市話 :</label>
+						<input placeholder="分鐘" type="text" style="width:201px; box-sizing:border-box;" value='10' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">上網傳輸量 :</label>
+						<input placeholder="GB" type="text" style="width:201px; box-sizing:border-box;" value='2.5' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網內簡訊 :</label>
+						<input placeholder="則" type="text" style="width:201px; box-sizing:border-box;" value='5' />
+					</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">網外簡訊 :</label>
+						<input placeholder="則" type="text" style="width:201px; box-sizing:border-box;" value='5' />
+					</div>
+				</div>
+				<div class="separator">
+					<div class="separator_title">請選擇您想搭配的手機：</div>
+					<div class="n_row">
+						<label style="width:85px; padding:0;">手機 :</label>
+						<span class="custom_select">
+							<select id='select2' style="width:201px; box-sizing:border-box;">
+								<option >請選擇</option>
+								<option selected="selected">iPhone6s(64G)</option>
+								<option >iPhone6s Plus(64G)</option>
+							</select>
+						</span>
+					</div>
+				</div>
+				<div class="submit_po">
+					<input class="submit" type="submit" href='#' value="確認送出" onclick="Run('select2')">
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+</body>
+</html>

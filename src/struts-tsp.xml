@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"/WEB-INF/classes/struts-2.3.dtd">
+ 
+<struts>
+   <package name="tspApi" extends="json-default">
+		<interceptors>
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="json">
+					<param name="enableSMD">true</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+<!-- 		tsp_CMS_BIL_url -->
+		<action name="execute" class="tspJsonAction">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="remainVal" class="tspJsonAction" method="remainVal">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		
+<!-- 		tsp_CMS_CRM_url -->
+		<action name="queryTicket" class="tspCRMJsonAction" method="queryTicket">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		
+<!-- 		tsp_CMS_EXTEND_url -->
+		<action name="contactUsReplyRead" class="tspExtendJsonAction" method="contactUsReplyRead">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="contactUsIssueAddAgain" class="tspExtendJsonAction" method="contactUsIssueAddAgain">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="zipCode" class="tspExtendJsonAction" method="zipCode">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="retail" class="tspExtendJsonAction" method="retail">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="depositBankInfo" class="tspExtendJsonAction" method="depositBankInfo">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="cwsOptions" class="tspExtendJsonAction" method="cwsOptions">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="cwsContactUS" class="tspExtendJsonAction" method="cwsContactUS">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+		<action name="contactUsIssueQuery" class="tspExtendJsonAction" method="contactUsIssueQuery">
+			<result type="json">
+				<param name="noCache">true</param>
+			</result>
+		</action>
+	</package>
+	
+   <package name="refresh" extends="json-default">
+		<action name="refreshCache" class="refreshCacheAction" method="refreshCache">
+			<result type="json">
+				<param name="root">response</param>
+				<param name="noCache">true</param>
+			</result>
+		</action>
+   </package>
+
+   <constant name="struts.multipart.saveDir" value="/AP/tomcat/tmp"></constant>
+</struts>

@@ -1,0 +1,801 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Soft Hued 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130831
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>行動客服APP後台管理系統</title>
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+	<link rel="stylesheet" href="css/tablesorter.css" /><!-- 以 table column 排序用，請參考 http://tablesorter.com/docs/ -->
+	<script src="js/ga.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="js/jquery.blockUI.js"></script>
+	<script src="js/util.js"></script>
+	<script type="text/javascript" src="js/ajaxfileupload.js"></script><!--檔案上傳用的，參考網頁：http://www.phpletter.com/Our-Projects/AjaxFileUpload/ -->
+	<script src="js/jquery-ui-timepicker-addon.js"></script> <!-- 將 JQuery UI 的 date picker 加上時間功能，請參考 http://trentrichardson.com/examples/timepicker/ -->
+	<script src="js/jquery.tablesorter.min.js"></script> <!-- 以 table column 排序用，請參考 http://tablesorter.com/docs/ -->
+	<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container" style="z-index: 9999">
+		<div id="logo">
+			<table><tr><td><h1><a href="index.html">行動客服APP後台管理系統</a></h1></td><td class="headeruserid"><span id="FunctionName"></span><span>-</span></td><td class="headeruserid"><span id="LoginId"></span></td></tr></table>
+		</div>
+		<div id="mainmenu" style="position:absolute;z-index: 9999">
+			<ul id="mainmenuitem" >
+				<!--
+				<li class="current_page_item"><a href="MessageQuery.html">訊息維護</a></li>
+				<li><a href="AccountSetting">權限設定</a></li>
+				<li><a href="#" onclick="doLogout();">登出</a></li>
+				-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="wrapper">
+	<div id="page" class="container">
+		<!-- <form id="frmMain" name="frmMain"> -->
+			<div id="tabs" style="z-index: 1">
+				<ul>
+					<li><a href="#tabs-1" onclick="switchTab(0);">臺灣</a></li>
+					<li><a href="#tabs-1" onclick="switchTab(1);">金門</a></li>
+					<li><a href="#tabs-1" onclick="switchTab(2);">馬祖</a></li>
+					<li><a href="#tabs-1" onclick="switchTab(3);">澎湖</a></li>
+				</ul>
+				<div id="tabs-1">
+					<div id="tab1Detail">
+					<table>
+						<tr>
+							<td colspan="2" id="areaName">預覽地區：臺灣</td>
+						</tr>
+						<tr>
+							<td rowspan="3">
+								<div id="map_canvas"  style="position:relative;border:1px solid #CCCCCC;height:369px;width:650px;"></div>
+							</td>
+							<td>
+								<table id='tbl1' class="hasBorder">
+									<thead>
+										<tr>
+											<th style="width:70px">3G+4G</th>
+											<th>微調</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>SW</td>
+											<td><input id="sData1" type="text" disabled style="width: 150px"></input>,
+												<input id="wData1" type="text" disabled style="width: 150px"></input>
+												<button id="modifyBtn1" name="modifyBtn" onclick="modifySwne(this,'sData1','wData1','')" disabled>微調</button>
+											</td>
+										</tr>
+										<tr>
+											<td>NE</td>
+											<td><input id="nData1" type="text" disabled style="width: 150px"></input>,
+												<input id="eData1" type="text" disabled style="width: 150px"></input>
+												<button id="modifyBtn2" name="modifyBtn" onclick="modifySwne(this,'nData1','eData1','')" disabled >微調</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						<tr>	
+							<td>
+								<table id='tbl2' class="hasBorder">
+									<thead>
+										<tr>
+											<th style="width:70px">4G未來</th>
+											<th>微調</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>SW</td>
+											<td><input id="sData2" type="text" style="width: 150px"></input>,
+												<input id="wData2" type="text" style="width: 150px"></input>
+												<button id="modifyBtn3" name="modifyBtn" onclick="modifySwne(this,'sData2','wData2','')">微調</button>
+											</td>
+										</tr>
+										<tr>
+											<td>NE</td>
+											<td><input id="nData2" type="text" style="width: 150px"></input>,
+												<input id="eData2" type="text" style="width: 150px"></input>
+												<button id="modifyBtn4" name="modifyBtn" onclick="modifySwne(this,'nData2','eData2','')">微調</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<table id='tbl3' class="hasBorder">
+									<thead>
+										<tr>
+											<th style="width:70px">4G</th>
+											<th>微調</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>SW</td>
+											<td><input id="sData3" type="text" disabled style="width: 150px"></input>,
+												<input id="wData3" type="text" disabled style="width: 150px"></input>
+												<button id="modifyBtn5" name="modifyBtn" onclick="modifySwne(this,'sData3','wData3','')" disabled>微調</button>
+											</td>
+										</tr>
+										<tr>
+											<td>NE</td>
+											<td><input id="nData3" type="text" disabled style="width: 150px"></input>,
+												<input id="eData3" type="text" disabled style="width: 150px"></input>
+												<button id="modifyBtn6" name="modifyBtn" onclick="modifySwne(this,'nData3','eData3','')" disabled>微調</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr><td><table id='tbl5' class="hasBorder">
+									<tr><td colspan="3">
+											<input type="radio" name="gtype" value="3G4G" >3G+4G</input>&nbsp
+											<input type="radio" name="gtype" value="4G" checked>4G未來</input>&nbsp
+											<input type="radio" name="gtype" value="4GN" >4G</input>&nbsp
+											<input type="radio" name="gtype" value="35G" >3.5G</input></td>
+									</tr>
+									<tr><td>KML檔案</td>
+										<td><input type="text" id="filePathText1" name="filePathText1" style="display: none;"></input>
+											<input type="file" name="filePath1" id="filePath1" accept='application/vnd.google-earth.kml+xml'style="width:400px"/></td>
+										<td><input type="button" name="fileUpload1" id="fileUpload1" onclick="readFile('1');" value="上傳KML" /></td></tr>
+									<tr><td>涵蓋圖</td>
+										<td><input type="text" id="filePathText2" name="filePathText2" style="display: none;"></input>
+											<input type="file" name="filePath2" id="filePath2" accept="image/png" style="width:400px"/></td>
+										<td><input type="button" name="fileUpload2" id="fileUpload2" onclick="readFile('2');" value="上傳圖檔" /></td></tr>
+								</table></td>
+							<td>
+								<table id='tbl4' class="hasBorder">
+									<thead>
+										<tr>
+											<th style="width:70px">3.5G</th>
+											<th>微調</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>SW</td>
+											<td><input id="sData4" type="text" disabled style="width: 150px"></input>,
+												<input id="wData4" type="text" disabled style="width: 150px"></input>
+												<button id="modifyBtn7" name="modifyBtn" onclick="modifySwne(this,'sData4','wData4','')" disabled>微調</button>
+											</td>
+										</tr>
+										<tr>
+											<td>NE</td>
+											<td><input id="nData4" type="text" disabled style="width: 150px"></input>,
+												<input id="eData4" type="text" disabled style="width: 150px"></input>
+												<button id="modifyBtn8" name="modifyBtn" onclick="modifySwne(this,'nData4','eData4','')" disabled>微調</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr><td><lable id='msg'></lable></td><td style="text-align: right"><button id="saveBtn">存檔 </button> </td></tr>
+					</table>
+					</div>
+				</div>
+				<div id="tabs-2"></div>
+				<div id="tabs-3"></div>
+				<div id="tabs-4"></div>
+			</div>
+		<!-- </form> -->
+	</div>
+</div>
+<div id="footer" class="container">
+	<div id="copyright" class="container">
+	<p>台灣之星電信版權所有 Copyright© 2014 Taiwan Star Telecom Co., Ltd. All Rights Reserved.&nbsp;&nbsp;&nbsp;&nbsp;(最佳解析度1280X800)</p>
+</div>
+</body>
+</html>
+<script> 
+		//不支援$.toJSON() 改用 JSON.stringify()
+		var selected;	//當前tab index
+		var geocoder;
+		var googleMap;
+		var overlayObj;
+		var overlay0;
+		var tempPng = "";
+		var publicUrl = "http://202.144.223.15/";
+		var pngFolder = "../myviboadmin_pic/";
+		
+
+$(function() {
+	var inOff = true ;
+	if(inOff){
+	getLoginId('網路涵蓋圖管理');	//取得目前登入使用者的ID
+	
+	getServiceList();	//取得服務清單
+	
+	}
+	var $tabs = $( "#tabs" ).tabs();
+				
+	//預設位置
+ 	 var myLatLng = new google.maps.LatLng(23.552679, 120.967653);
+	var myOptions = {
+		zoom: 7,
+		center: myLatLng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};	//測試時MARK
+	
+	
+	geocoder = new google.maps.Geocoder();
+	googleMap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	google.maps.event.addListener(googleMap, 'zoom_changed', function() {
+				zoomLevel = googleMap.getZoom();
+				if (zoomLevel > 13) {
+					googleMap.setZoom(13);
+				}
+			});   //測試時MARK
+
+	//套用涵蓋圖overlay
+	selected =$( "#tabs" ).tabs('option', 'active');
+	overlayObj = {mapIdx:selected,
+				type:$("input[name='gtype']:checked").val()};
+	
+	 
+	//從DB取得SWNE資料
+	findSwneByQry();
+	
+	//========== event start ===========
+	//切換通訊服務
+	$("input[name='gtype']").change(function(){
+		tempPng = ""	//清空
+		selected =$( "#tabs" ).tabs('option', 'active');
+		overlayObj = {mapIdx:selected,
+				type:$("input[name='gtype']:checked").val()};
+		findSwneByQry();
+		disabledCrl();
+	});
+	
+	//微調btn
+/* 	 $("button[name='modifyBtn']").click(function(){
+		modifySwne(this, '');
+	});   //測試時MARK */
+	
+	//存檔
+ 	$('#saveBtn').click(function(){
+ 		
+ 		var idx = 0;
+		
+		if(overlayObj.type == "3G4G"){
+			idx = 1;
+		}else if(overlayObj.type == "4G"){
+			idx = 2;
+		}else if(overlayObj.type == "4GN"){
+			idx = 3;
+		}else if(overlayObj.type == "35G"){
+			idx = 4;
+		}
+		
+		var swneObj = new Object();
+		//檢查經緯度必填
+		if(beEmpty($('#sData' + idx).val()) || beEmpty($('#wData' + idx).val()) 
+				||beEmpty($('#nData' + idx).val()) || beEmpty($('#eData' + idx).val())){
+			alert('請輸入經緯度');	
+			return ;
+		}else{
+			swneObj.s=$('#sData' + idx).val();
+			swneObj.w=$('#wData' + idx).val();
+			swneObj.n=$('#nData' + idx).val();
+			swneObj.e=$('#eData' + idx).val();
+		}
+		
+		doSave(swneObj);	//存檔ajax
+		
+		
+	}); 
+	
+	
+	//========== event end ===========
+});
+</script>
+<script>
+
+//上傳
+function readFile(sid){
+		if(!checkFile(sid)){
+			return;
+		}
+		
+		switch(sid){
+		case '1':
+			//文件.KML			
+			doReadKml();
+			break;
+		case '2':
+			//圖檔.PNG
+			doReadPng();
+			break;
+		}
+		
+};
+
+//檢查上傳檔案
+function checkFile(sid){
+	var result = true;
+	//var file_upl = document.getElementById("filePath"+sid);
+	//file_upl.select();
+	//var realpath = document.selection.createRange().text;
+	//var realpath = file_upl.files.item(0).getAsDataURL();
+	//alert(file_upl.value);
+	
+	if (beEmpty(sid)){	//無傳入值
+		return false;
+	}
+	if (beEmpty($('#filePath'+sid).val())){	//未選擇檔案
+		alert('請先選擇檔案!');
+		return false;
+	}
+	var fileSize = 0; //上傳的檔案大小
+	var SizeLimit = 1048576; //上傳上限=1MB(單位:byte)
+	
+	var f = document.getElementById("filePath"+sid);
+	switch(sid){
+	case '1':
+		//文件.KML
+		var re = /\.(kml|KML)$/;  //允許的圖片副檔名
+		if (!re.test(f.value)) {
+			alert("檔案格式不符\n只允許上傳KML檔");
+			result =  false;
+		} 
+		break;
+	case '2':
+		//圖檔.PNG
+		var re = /\.(png|PNG)$/;  //允許的圖片副檔名
+		if (!re.test(f.value)) {
+			alert("檔案格式不符\n只允許上傳PNG影像檔");
+			result =  false;
+		} 
+		/*fileSize = f.files.item(0).size;	//IE8不支援
+	    if (fileSize > SizeLimit) {
+			var msg = "您所選擇的檔案大小為 " + (fileSize/1024).toPrecision(4) + 
+    		 			" KB\n已超過上傳上限： " + (SizeLimit/1024) + " KB\n不允許上傳！"
+    		alert(msg);
+			result =  false;
+		} */
+		break;
+	default:
+		alert('檢查檔案失敗，請洽資訊人員。');
+		result =  false;
+		break;
+	}
+	return result;
+}
+
+//讀取KML檔/圖檔
+function doReadKml(){
+	$.ajaxFileUpload({
+		url:"ajaxAdmCoverageReadKml.jsp",
+		secureuri: false,
+		fileElementId:'filePath1',
+		dataType: 'xml',			
+		success: function (xml, status){
+			var idx = 0;
+			
+			if(overlayObj.type == "3G4G"){
+				idx = 1;
+			}else if(overlayObj.type == "4G"){
+				idx = 2;
+			}else if(overlayObj.type == "4GN"){
+				idx = 3;
+			}else if(overlayObj.type == "35G"){
+				idx = 4;
+			}
+			//alert($(xml).find("south").text()+$(xml).find("west").text()+$(xml).find("north").text()+$(xml).find("east").text());
+			$('#sData'+idx).val($(xml).find("south").text());
+			$('#wData'+idx).val($(xml).find("west").text());
+			$('#nData'+idx).val($(xml).find("north").text());
+			$('#eData'+idx).val($(xml).find("east").text());
+			
+			modifySwne(null,'','', xml);	
+			
+		},
+		error: function (data, status, e){
+			alert("失敗：" + e);
+		}
+	});	//$.ajaxFileUpload({
+} 
+	
+function doReadPng(){
+	//取得圖片本機路徑
+	//var realPath = $('#filePath2').val();
+	//alert(realPath);
+	//重設overlay
+	
+	doPicUpload(true); //isTemp = true
+	
+}
+
+//切換頁籤
+function switchTab(clickid){
+	 var zoom;
+	var areaName;	//預覽地區
+	tempPng = "";	//清除
+	
+ 	switch(clickid){
+	case 0 :
+		myLatLng = new google.maps.LatLng(23.552679, 120.967653);//臺灣
+		zoom = 7;
+		areaName = '臺灣';
+		break;
+	case 1 :
+		myLatLng = new google.maps.LatLng(24.435851, 118.366951);//金門
+		zoom = 11;
+		areaName = '金門';
+		break;
+	case 2 :
+		myLatLng = new google.maps.LatLng(26.148910, 119.935817);//馬祖
+		zoom = 9;
+		areaName = '馬祖';
+		break;
+	case 3 :
+		myLatLng = new google.maps.LatLng(23.565019, 119.582974);//澎湖
+		zoom = 10;
+		areaName = '澎湖';
+		break;
+	}
+ 	
+ 	$('#areaName').text("預覽地區："+areaName);	//更改'預覽地區'的名稱
+ 	//document.getElementById("areaName").innerText = areaName;
+	myOptions = {
+			zoom: zoom,
+			center: myLatLng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+	googleMap = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	google.maps.event.addListener(googleMap, 'zoom_changed', function() {
+		zoomLevel = googleMap.getZoom();
+		if (zoomLevel > 13) {
+			googleMap.setZoom(13);
+		}
+	});  //測試時MARK
+	//套上涵蓋圖overlay
+	overlayObj = {mapIdx:clickid,
+				type:$("input[name='gtype']:checked").val()};
+	
+	findSwneByQry(); 
+} 
+
+
+//加上涵蓋overlay
+ function addOverlay(xml){
+	var imageBounds;
+	/* switch(overlayObj.mapIdx){
+	case 0 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(21.860086, 119.940403),
+			      new google.maps.LatLng(25.391177, 122.047676));
+		break;
+	case 1 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(24.35726157, 118.1456667),
+			      new google.maps.LatLng(24.56790431, 118.4892854));
+		break;
+	case 2 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(26.119185, 119.793619),
+			      new google.maps.LatLng(26.266815, 120.134381));
+		break;
+	case 3 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(23.062144, 119.280868),
+			      new google.maps.LatLng(23.854379, 119.730969));
+		break;
+	}  */
+	
+	imageBounds = new google.maps.LatLngBounds(
+		      new google.maps.LatLng($(xml).find("South").text() , $(xml).find("West").text()  ),
+		      new google.maps.LatLng($(xml).find("North").text() , $(xml).find("East").text() )); 
+	if(overlay0 != undefined){
+		overlay0.setMap(null);		      
+	}
+	if(tempPng == ""){
+		var n = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;	
+		overlay0 = new google.maps.GroundOverlay(
+				 pngFolder +overlayObj.type+'_'+getAreaName()+'.png'+"?"+n,
+			      imageBounds);
+	}else{
+		
+		var n = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+		overlay0 = new google.maps.GroundOverlay(
+					tempPng+"?"+n,
+			      imageBounds);
+	}
+	
+	overlay0.setMap(googleMap);
+}    //測試時MARK
+
+//微調SWNE，重設MAP
+function modifySwne(btnObj, inputId1, inputId2, xml){
+	
+ 	overlay0.setMap(null);	//清除原overlay
+	var objId;
+	var idNum;	//btn的編號
+	var arg1;	//input座標1
+	var arg2;	//input座標2
+	var latLng;	//原座標
+	var imageBounds = overlay0.getBounds();
+	if(beEmpty(btnObj)){	
+		//從KML讀取4個座標
+		imageBounds = new google.maps.LatLngBounds(
+			    new google.maps.LatLng(parseFloat( $(xml).find("south").text()), parseFloat($(xml).find("west").text()) ),
+			    new google.maps.LatLng( parseFloat($(xml).find("north").text()), parseFloat($(xml).find("east").text()) ) );			    
+		
+	}else{
+		//手動調整兩個座標行微調
+		objId = btnObj.id;
+		idNum = objId.substr(9,10);	//btn的編號
+		
+		//arg2 = $('#'+objId).prev().val();
+		//arg1 = $('#'+objId).prev().prev().val();	//IE8不支援
+		arg2 = $('#'+inputId2).val();
+		arg1 = $('#'+inputId1).val();
+		
+		if(0 != idNum % 2){
+			//SW
+			latLng = imageBounds.getNorthEast();
+			imageBounds = new google.maps.LatLngBounds(
+				    new google.maps.LatLng(arg1, arg2),
+				    latLng);//測試用KM: 24.35726157 , 118.1456667
+		}else {
+			//NE
+			latLng = imageBounds.getSouthWest();
+			imageBounds = new google.maps.LatLngBounds(
+					latLng,				 
+				    new google.maps.LatLng(arg1, arg2));//測試用KM: 24.56790431 , 118.4892854
+		}
+	
+	}
+	if(tempPng == ""){
+		var n = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+		overlay0 = new google.maps.GroundOverlay(
+			 	  pngFolder +overlayObj.type+'_'+getAreaName()+'.png'+"?"+n,
+			      imageBounds); 
+	}else{
+		var n = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+		overlay0 = new google.maps.GroundOverlay(
+					tempPng+"?"+n,
+			      imageBounds);
+	}
+	
+	overlay0.setMap(googleMap);  //測試時MARK
+	
+	
+}
+//更換涵蓋圖PNG
+function changePng(data){
+	//data為xml
+	//暫存圖檔的位置
+	tempPng =  pngFolder + $(data).find('fileName').text();
+	
+	overlay0.setMap(null);	//清除原overlay
+	var imageBounds = overlay0.getBounds();
+	var n = Math.floor(Math.random() * (10000 - 1 + 1)) + 1;
+	overlay0 = new google.maps.GroundOverlay(
+				  tempPng+"?"+n,
+			      imageBounds);
+	
+	overlay0.setMap(googleMap);    //測試時MARK 
+	
+}
+
+//查詢SWNE
+function findSwneByQry(){
+	$.ajax({
+			url: "ajaxAdmCoverageQuery.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: {mapIdx: overlayObj.mapIdx, type: overlayObj.type },
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				alert ('系統忙碌中，無法取得訊息資料請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				var type = $(xml).find("Type").text();
+				var idNm;
+				if( type == '3G4G'){
+					idNm = 1;
+				}else if( type == '4G'){
+					idNm = 2;
+				}else if( type == '4GN'){
+					idNm = 3;
+				}else if( type == '35G'){
+					idNm = 4;
+				}
+				$('#tbl1 input').val("");
+				$('#tbl2 input').val("");
+				$('#tbl3 input').val("");
+				$('#tbl4 input').val("");
+				
+				$('#sData'+ idNm).val($(xml).find("South").text());
+				$('#wData'+ idNm).val($(xml).find("West").text());
+				$('#nData'+ idNm).val($(xml).find("North").text());
+				$('#eData'+ idNm).val($(xml).find("East").text());
+				
+				addOverlay(xml);
+				
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	
+}
+		
+//存檔
+function doSave(swneObj){
+	showBlockUI();
+	$.ajax({
+		url: "ajaxAdmCoverageSave.jsp",
+		type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+		data: {mapIdx: overlayObj.mapIdx, type: overlayObj.type,
+			south: swneObj.s, west: swneObj.w, north: swneObj.n, east: swneObj.e },
+		//data: {mapIdx: '0', type:'4G' },
+		dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+		timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+		error: function (){	//錯誤提示
+			unBlockUI();	
+			alert ('系統忙碌中，無法取得訊息資料請稍候再試!!');
+		},
+		success: function (xml){ //ajax請求成功後do something with xml
+			unBlockUI();
+			doPicUpload(false);
+			
+		}	//success: function (xml){ //ajax請求成功後do something with xml
+	});	//$.ajax({
+	//以上是執行AJAX要求server端處理資料
+
+}
+	
+//上傳圖檔
+function doPicUpload(isTemp){
+	//alert('doPicUpload');
+	//alert(overlayObj.mapIdx+","+overlayObj.type);
+	showBlockUI();
+$.get("ajaxAdmCoverageUpdateJobInfo.jsp", {mapIdx: overlayObj.mapIdx, type: overlayObj.type, isTemp: isTemp, loginId: $('#LoginId').text()}
+	, function (data,textStatus){
+	$.ajaxFileUpload({
+		url:"ajaxAdmCoverageUploadFile.jsp",
+		secureuri: false,
+		fileElementId:'filePath2',
+		dataType: 'xml',			
+		success: function (data, status){
+			unBlockUI();	
+			if($(data).find('ResultCode').text()=="99999"){
+				//檔案大小請勿超過1MB
+				alert($(data).find('ResultText').text());
+				return;
+			}
+			if(isTemp){
+				//alert($(data).find('filePath').text() + "/" + $(data).find('fileName').text());
+				changePng(data);
+			}else{
+				alert('存檔成功');
+			}
+		},
+		error: function (data, status, e){
+			alert("檔案上傳失敗：" + e);
+		}
+	});	//$.ajaxFileUpload({
+	
+	//$('#img').attr('src', f.value);
+	});
+}
+
+//取得服務清單
+function getServiceList(success){
+	showBlockUI();
+	//以下是執行AJAX要求server端處理資料
+	$.ajax({
+		url: "ajaxAdmGetServiceList.jsp",
+		type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+		data: '',
+		dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+		timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+		error: function (){	//錯誤提示
+			unBlockUI();
+			alert ('系統忙碌中，請稍候再試!!');
+		},
+		success: function (xml){ //ajax請求成功後do something with xml
+			unBlockUI();
+			var ResultCode = $(xml).find("ResultCode").text();
+			var ResultText = $(xml).find("ResultText").text();
+			if (ResultCode=='00000'){	//作業成功
+				var ss = "";
+				$(xml).find("item").each( function() {
+					ss += "<option value='" + $(this).children("ServiceId").text() + "'>" + $(this).children("ServiceName").text() + "</option>";
+				});
+				$('#ServiceId').append(ss);
+				if (success!=null && typeof(success)=="function") success();
+			}else{
+				alert(ResultText);
+			}	//if (ResultCode=='00000'){	//作業成功
+		}	//success: function (xml){ //ajax請求成功後do something with xml
+	});	//$.ajax({
+	//以上是執行AJAX要求server端處理資料
+}	//function getServiceList(){
+
+//控制編輯的權限
+function disabledCrl(){
+	
+	for(i=1; i<=4; i++){
+		$('#sData'+i).attr('disabled', true);
+		$('#wData'+i).attr('disabled', true);
+		$('#nData'+i).attr('disabled', true);
+		$('#eData'+i).attr('disabled', true);
+	}
+	$('#modifyBtn1').attr('disabled', true);	
+	$('#modifyBtn2').attr('disabled', true);
+	$('#modifyBtn3').attr('disabled', true);
+	$('#modifyBtn4').attr('disabled', true);
+	$('#modifyBtn5').attr('disabled', true);
+	$('#modifyBtn6').attr('disabled', true); 
+	$('#modifyBtn7').attr('disabled', true);
+	$('#modifyBtn8').attr('disabled', true); 
+
+	
+	if("3G4G" == overlayObj.type){
+		$('#tbl1 input').attr('disabled', false);
+		$('#tbl1 button').attr('disabled', false);
+	}else if("4G" == overlayObj.type){
+		$('#tbl2 input').attr('disabled', false);
+		$('#tbl2 button').attr('disabled', false);
+	}else if("4GN" == overlayObj.type){
+		$('#tbl3 input').attr('disabled', false);
+		$('#tbl3 button').attr('disabled', false);
+	}else if("35G" == overlayObj.type){
+		$('#tbl4 input').attr('disabled', false);
+		$('#tbl4 button').attr('disabled', false);
+	}
+}
+
+function getAreaName(){
+	var areaName;
+	switch(overlayObj.mapIdx){
+	case 0 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(21.860086, 119.940403),
+			      new google.maps.LatLng(25.391177, 122.047676));
+		areaName="TW";
+		break;
+	case 1 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(24.35726157, 118.1456667),
+			      new google.maps.LatLng(24.56790431, 118.4892854));
+		areaName="KM";
+		break;
+	case 2 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(26.119185, 119.793619),
+			      new google.maps.LatLng(26.266815, 120.134381));
+		areaName="MJ";
+		break;
+	case 3 :
+		imageBounds = new google.maps.LatLngBounds(
+			      new google.maps.LatLng(23.062144, 119.280868),
+			      new google.maps.LatLng(23.854379, 119.730969));
+		areaName="PH";
+		break;
+	}
+	return areaName;
+}
+</script>
+
+

@@ -1,0 +1,27 @@
+{  "news_banner": [
+  {
+    "bid":"5", 
+    "type":"5",
+    "l_pic": "/myviboadmin_pic/20140929/APP_icon1.jpg",
+    "l_url": "http://www.tstartel.com/CWS/mobile/newslist.htm?utm_source=TSTAR_APP&utm_medium=banner&utm_campaign=News",
+    "r_pic": "/myviboadmin_pic/20140929/APP_icon2.jpg",
+    "r_url": "http://www.tstartel.com/CWS/discount/4g_rate/index.htm?utm_source=TSTAR_APP&utm_medium=banner&utm_campaign=Rate"
+   }
+,
+    {
+    "bid":"xxXXX", 
+    "type":"1",
+    "l_pic": "/myviboadmin_pic/20140929/APP_icon3.jpg",
+    "l_url": "http://www.tstartel.com/CWS/mobile/discount.htm?utm_source=TSTAR_APP&utm_medium=banner&utm_campaign=discount",
+    "rt_pic": "/myviboadmin_pic/20140929/APP_icon4.jpg",
+    "rt_url": "http://www.tstartel.com/CWS/mobile/superiority.htm?utm_source=TSTAR_APP&utm_medium=banner&utm_campaign=4G",
+    "rb_pic": "/myviboadmin_pic/20140929/APP_icon5.jpg",
+    "rb_url": "http://goo.gl/M4hLK5" }
+ 
+  ],
+  "video_banner":
+  {
+	  "pic": "/myviboadmin_pic/APP_icon6_1.jpg",
+	  "url": "http://www.tstartel.com/CWS/mobile/video.htm?utm_source=TSTAR_APP&utm_medium=banner&utm_campaign=video",
+ }
+}

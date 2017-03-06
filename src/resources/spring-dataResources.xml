@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+           http://www.springframework.org/schema/tx
+     	   http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+ 
+	<!-- 配置数据源属性文件 -->  
+	<bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+		<property name="ignoreUnresolvablePlaceholders" value="true" /> 
+	    <property name="locations">
+	        <list>  
+	            <value>classpath:db.properties</value>
+	            <value>classpath:sys.properties</value>
+	        </list>  
+	    </property>  
+	</bean>
+	
+	<bean id="tappDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	   <property name="driverClassName" value="${database.tapp.driver}"/>  
+	   <property name="url" value="${database.tapp.url}"/>  
+	   <property name="username" value="${database.tapp.username}"/>  
+	   <property name="password" value="${database.tapp.password}"/>  
+	</bean>
+	<!-- 配置mybitasSqlSessionFactoryBean -->
+	<bean id="tappSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="tappDataSource" />
+		<property name="configLocation" value="classpath:mybatisTapp.xml"></property>
+	</bean>
+	
+	<!-- 事务配置 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="tappDataSource" />
+	</bean>
+	
+	<!-- 使用annotation注解方式配置事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- 自动扫描 mybatis mapper接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+	    <property name="basePackage" value="com.tstar.dao.tapp, com.tstar.dao.custom" />
+	    <property name="sqlSessionFactoryBeanName" value="tappSqlSessionFactory" />
+	</bean> 
+	
+	
+	<!-- SMS -->
+<!-- 	<bean id="smsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 	   <property name="driverClassName" value="${database.sms.driver}"/>   -->
+<!-- 	   <property name="url" value="${database.sms.url}"/>   -->
+<!-- 	   <property name="username" value="${database.sms.username}"/>   -->
+<!-- 	   <property name="password" value="${database.sms.password}"/>    -->
+<!-- 	</bean> -->
+	<!-- 配置mybitasSqlSessionFactoryBean -->
+<!-- 	<bean id="smsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> -->
+<!-- 		<property name="dataSource" ref="smsDataSource" /> -->
+<!-- 		<property name="configLocation" value="classpath:mybatisSms.xml"></property> -->
+<!-- 	</bean> -->
+	
+	<!-- 事务配置 -->
+<!-- 	<bean id="smsTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
+<!-- 		<property name="dataSource" ref="smsDataSource" /> -->
+<!-- 	</bean> -->
+	<!-- 使用annotation注解方式配置事务 -->
+<!-- 	<tx:annotation-driven transaction-manager="smsTransactionManager"/> -->
+	<!-- 自动扫描 mybatis mapper接口 --> 
+<!-- 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">   -->
+<!-- 	    <property name="basePackage" value="com.tstar.dao.sms" /> -->
+<!-- 	    <property name="sqlSessionFactoryBeanName" value="smsSqlSessionFactory" /> -->
+<!-- 	</bean> -->
+</beans>

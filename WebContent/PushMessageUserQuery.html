@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Soft Hued 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130831
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>台灣之星APP後台管理系統</title>
+	<link href="css/default.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+	<link rel="stylesheet" href="css/tablesorter.css" /><!-- 以 table column 排序用，請參考 http://tablesorter.com/docs/ -->
+	<script src="js/ga.js"></script>
+	<script src="js/jquery-1.9.1.js"></script>
+	<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="js/jquery.blockUI.js"></script>
+	<script src="js/util.js"></script>
+	<script src="js/jquery-ui-timepicker-addon.js"></script> <!-- 將 JQuery UI 的 date picker 加上時間功能，請參考 http://trentrichardson.com/examples/timepicker/ -->
+	<script src="js/jquery.tablesorter.min.js"></script> <!-- 以 table column 排序用，請參考 http://tablesorter.com/docs/ -->
+</head>
+<body>
+<div id="header-wrapper">
+	<div id="header" class="container">
+		<div id="logo">
+			<table><tr><td><h1><a href="index.jsp">台灣之星APP後台管理系統</a></h1></td><td class="headeruserid"><span id="FunctionName"></span><span>-</span></td><td class="headeruserid"><span id="LoginId"></span></td></tr></table>
+		</div>
+		<!--<div id="menu">-->
+		<div id="mainmenu">
+			<ul id="mainmenuitem">
+				<!--
+				<li class="current_page_item"><a href="MessageQuery.html">訊息維護</a></li>
+				<li><a href="AccountSetting">權限設定</a></li>
+				<li><a href="#" onclick="doLogout();">登出</a></li>
+				-->
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="wrapper">
+	<div id="page" class="container">
+		<form id="frmMain" name="frmMain">
+			<table cellspacing="10">
+				<tr><td>服務名稱</td><td colspan="3"><select id="ServiceId" name="ServiceId"><option value="" selected>全部</option></select></td></tr>
+				<tr><td>裝置類型</td><td colspan="3"><select id="DeviceType" name="DeviceType"><option value="" selected>全部</option><option value="A">Android</option><option value="I">iOS</option></select></td></tr>
+				<tr><td>手機門號</td><td colspan="3"><input type="text" id="MSISDN" name="MSISDN" size="10" maxlength="10"></td></tr>
+				<tr><td>合約編號</td><td colspan="3"><input type="text" id="ContractId" name="ContractId" size="10" maxlength="10"></td></tr>
+				<tr><td colspan="4" align="center"><input type="button" class="button" id="btnSubmit" name="btnSubmit" value="查詢" onclick="doSearch();"></tr>
+			</table>
+		</form>
+		
+		<table id="tblResult" name="tblResult" class="hasBorder tablesorter" style="margin-top:20px;width:100%;">
+			<thead>
+				<tr>
+					<th>服務名稱</th>
+					<th>裝置類型</th>
+					<th>門號</th>
+					<th>合約編號</th>
+					<th>註冊時間</th>
+					<th>允許發送</th>
+					<th>裝置ID</th>
+					<th>刪除</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div id="footer" class="container">
+	<div id="copyright" class="container">
+	<p>台灣之星電信版權所有 Copyright© 2014 Taiwan Star Telecom Co., Ltd. All Rights Reserved.&nbsp;&nbsp;&nbsp;&nbsp;(最佳解析度1280X800)</p>
+</div>
+</body>
+</html>
+
+
+<script>
+	$(function() {
+		//$(".button").button().click(function(event){event.preventDefault();});	//將class=button的物件做成 JQuery UI 的 button
+		$(".button").button();	//將class=button的物件做成 JQuery UI 的 button
+
+		getLoginId('推播用戶查詢');	//取得目前登入使用者的ID
+
+		getServiceList();	//取得服務清單
+
+		$('#tblResult').tablesorter();
+	});
+</script>
+
+<script>
+	//取得服務清單
+	function getServiceList(success){
+		showBlockUI();
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmGetServiceList.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: '',
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				if (ResultCode=='00000'){	//作業成功
+					var ss = "";
+					$(xml).find("item").each( function() {
+						ss += "<option value='" + $(this).children("ServiceId").text() + "'>" + $(this).children("ServiceName").text() + "</option>";
+					});
+					$('#ServiceId').append(ss);
+					if (success!=null && typeof(success)=="function") success();
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}	//function getServiceList(){
+
+	function doSearch(){	//搜尋資料
+		$('#tblResult tbody tr').remove();
+		$('#tblResult thead tr th').removeClass("headerSortDown headerSortUp");
+		$("#tblResult").trigger("update");
+		showBlockUI();
+		var s = $('#frmMain').serialize();
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxAdmPushMessageUserQuery.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: s,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				//console.log(ResultText);
+				if (ResultCode=='00000'){	//作業成功
+					var ss		= "";
+					var temp	= "";
+					var i		= 0;
+					$(xml).find("item").each( function() {
+						ss += "<tr>";
+						ss += "<td>" + $(this).children("ServiceId").text() + "</td>";
+						temp = $(this).children("DeviceType").text();
+						if ($(this).children("DeviceType").text()=="A")	temp = "Android";
+						if ($(this).children("DeviceType").text()=="I")	temp = "iOS";
+						ss += "<td>" + temp + "</td>";
+						ss += "<td>" + $(this).children("MSISDN").text() + "</td>";
+						ss += "<td>" + $(this).children("ContractId").text() + "</td>";
+						ss += "<td>" + $(this).children("RegisterDate").text() + "</td>";
+						temp = $(this).children("AllowSend").text();
+						if ($(this).children("AllowSend").text()=="Y")	temp = "是";
+						if ($(this).children("AllowSend").text()=="N")	temp = "<span style='color:#FF0000;'>否</span>";
+						ss += "<td>" + temp + "</td>";
+						ss += "<td style='word-wrap:break-word;word-break: break-all;'>" + $(this).children("DeviceId").text() + "</td>";
+						ss += "<td><a href='#' onclick='doDeleteDevice(" + i + ");return false;'>刪除</td>";
+						ss += "</tr>";
+						i++;
+					});
+					$('#tblResult tbody').append(ss);
+					$("#tblResult").trigger("update");
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+		return false;
+	}	//function doSearch(){	//搜尋資料
+
+	function doDeleteDevice(i){	//刪除某裝置
+		var ServiceId	= $("#tblResult").find("tbody tr").eq(i).find("td").eq(0).text();
+		var DeviceType	= $("#tblResult").find("tbody tr").eq(i).find("td").eq(1).text();
+		var MSISDN		= $("#tblResult").find("tbody tr").eq(i).find("td").eq(2).text();
+		var DeviceId	= $("#tblResult").find("tbody tr").eq(i).find("td").eq(6).text();
+		
+		if (DeviceType=="Android"){
+			DeviceType = "A";
+		}else if (DeviceType=="iOS"){
+			DeviceType = "I";
+		}else{
+			alert("無法辨識此筆資料的裝置類型!");
+			return;
+		}
+
+		if (!confirm('確定刪除' + ServiceId + '用戶' + MSISDN + '的' + DeviceType + '裝置' + DeviceId + '？')) return;
+
+		showBlockUI();
+		var s = "";
+		s += "ServiceId="		+ ServiceId;
+		s += "&DeviceType="		+ DeviceType;
+		s += "&DeviceId="		+ DeviceId;
+		s += "&ResponseType=xml";
+		//以下是執行AJAX要求server端處理資料
+		$.ajax({
+			url: "ajaxPushMessageDeleteDevice.jsp",
+			type: 'POST', //根據實際情況，可以是'POST'或者'GET'
+			data: s,
+			dataType: 'xml', //指定數據類型，注意server要有一行：response.setContentType("text/xml;charset=utf-8");
+			timeout: 300000, //設置timeout時間，以千分之一秒為單位，1000 = 1秒
+			error: function (){	//錯誤提示
+				unBlockUI();
+				alert ('系統忙碌中，請稍候再試!!');
+			},
+			success: function (xml){ //ajax請求成功後do something with xml
+				unBlockUI();
+				var ResultCode = $(xml).find("ResultCode").text();
+				var ResultText = $(xml).find("ResultText").text();
+				console.log(ResultText);
+				if (ResultCode=='00000'){	//作業成功
+					$("#tblResult").find("tbody tr").eq(i).remove();	//將畫面上此筆資料的table row刪除
+					alert("刪除作業已完成");
+				}else{
+					alert(ResultText);
+				}	//if (ResultCode=='00000'){	//作業成功
+			}	//success: function (xml){ //ajax請求成功後do something with xml
+		});	//$.ajax({
+		//以上是執行AJAX要求server端處理資料
+	}	//function doDeleteDevice(i){	//刪除某裝置
+</script>

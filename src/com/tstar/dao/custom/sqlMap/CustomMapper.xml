@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tstar.dao.custom.CustomMapper" >
+	<resultMap id="ProjectJoinMap" type="com.tstar.model.custom.ProjectRate">
+		<result column="TELECOM_ID" property="telecomId" jdbcType="VARCHAR" />
+		<result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+		<result column="TEL_NAME" property="telName" jdbcType="VARCHAR" />
+		<result column="RATE_ID" property="rateId" jdbcType="VARCHAR" />
+		<result column="RATE_NAME" property="rateName" jdbcType="VARCHAR" />
+		<result column="CHARGES_MONTH" property="chargesMonth" jdbcType="VARCHAR" />
+		<result column="NET_VOL_DESC" property="netVolDesc" jdbcType="VARCHAR" />
+		<result column="FREE_WIFI_DESC" property="freeEifidesc"	 jdbcType="VARCHAR" />
+		<result column="FREE_VOICE_DESC" property="freeVoiceDesc" jdbcType="VARCHAR" />
+		<result column="VOICE_ON_NET_SEC" property="voiceOnNetSec" jdbcType="VARCHAR" />
+		<result column="VOICE_OFF_NET_SEC" property="voiceOffNetSec" jdbcType="VARCHAR" />
+		<result column="PSTN" property="pstn" jdbcType="VARCHAR" />
+		<result column="CONTRACT_MONTHS" property="contractMonths" jdbcType="VARCHAR" />
+		<result column="MMS" property="mms" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ProjectDeviceJoinMap" type="com.tstar.model.custom.ProjectDevice">
+		<result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+		<result column="RATE_ID" property="rateId" jdbcType="VARCHAR" />
+		<result column="PROJECT_NAME" property="projectName" jdbcType="VARCHAR" />
+		<result column="PRICE" property="price" jdbcType="VARCHAR" />
+		<result column="DEVICE_NAME" property="deviceName" jdbcType="VARCHAR" />
+		<result column="DEVICE_MODEL" property="deviceModel" jdbcType="VARCHAR" />
+		<result column="PREPAYMENT_AMOUNT" property="prepaymentAmount" jdbcType="VARCHAR" />
+		<result column="SINGLE_PHONE" property="singlePhone" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="ProjectsResultMap" type="com.tstar.model.tapp.RateProjects">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="RATE_ID" property="rateId" jdbcType="VARCHAR" />
+	    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+	    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+	    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+	    <result column="PREPAYMENT_AMOUNT" property="prepaymentAmount" jdbcType="DECIMAL" />
+	    <result column="SINGLE_PHONE" property="singlePhone" jdbcType="VARCHAR" />
+	    <result column="LINK_TO_BILLING" property="linkToBilling" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="MvPushMessageUsers_Simple_Column_List">
+		MSISDN, CONTRACTID
+	</sql>
+	<resultMap id="MvPushMessageUsers_Simple_ResultMap" type="com.tstar.model.tapp.MvPushMessageUsers" >
+	    <result column="MSISDN" property="msisdn" jdbcType="VARCHAR" />
+	    <result column="CONTRACTID" property="contractid" jdbcType="VARCHAR" />
+	  </resultMap>
+	
+	<select id="queryMvPushMessageUsersSimple" resultMap="MvPushMessageUsers_Simple_ResultMap" parameterType="com.tstar.model.tapp.MvPushMessageUsersExample" >
+	    select
+	    <if test="distinct" >
+	      distinct
+	    </if>
+	    <include refid="MvPushMessageUsers_Simple_Column_List" />
+	    from MV_PUSHMESSAGEUSERS
+	    <if test="_parameter != null" >
+	      <include refid="com.tstar.dao.tapp.MvPushMessageUsersMapper.Example_Where_Clause" />
+	    </if>
+	    <if test="orderByClause != null" >
+	      order by ${orderByClause}
+	    </if>
+	  </select>
+	
+	
+
+	<!-- 2014 -->
+	<select id="queryProject" parameterType="java.util.Map" resultMap="ProjectJoinMap" >
+	    SELECT T.ID AS TELECOM_ID, T.NAME AS TEL_NAME, R.ID AS RATE_ID, R.NAME AS RATE_NAME, R.CHARGES_MONTH, R.ID AS RATE_ID, R.NET_VOL_DESC, R.FREE_WIFI_DESC, 
+		    R.FREE_VOICE_DESC, R.VOICE_ON_NET_SEC, R.VOICE_OFF_NET_SEC, R.PSTN, R.CONTRACT_MONTHS, R.MMS
+		FROM TELECOM_RATE R LEFT JOIN TELECOM T ON T.ID = R.TELECOM_ID
+		WHERE
+	    	R.TELECOM_ID = #{telId,jdbcType=VARCHAR}
+			AND CHARGES_MONTH BETWEEN #{upperFee,jdbcType=VARCHAR} AND #{lowerFee,jdbcType=VARCHAR}
+			<if test="feeType != null" >
+				AND R.RATE_TYPE = #{feeType,jdbcType=VARCHAR}
+			</if>
+		ORDER BY CHARGES_MONTH
+	</select>
+	<select id="queryProjectByRateId" parameterType="java.util.Map" resultMap="ProjectDeviceJoinMap" >
+	    SELECT PP.PROJECT_ID, PP.RATE_ID, PP.PROJECT_NAME, PP.PRICE, D.NAME AS DEVICE_NAME, D.DEVICE_MODEL, PP.PREPAYMENT_AMOUNT, PP.SINGLE_PHONE FROM 
+		(
+			SELECT RP.PROJECT_ID, RP.RATE_ID, P.NAME AS PROJECT_NAME, RP.PRICE, P.DEVICE_ID, RP.PREPAYMENT_AMOUNT, RP.SINGLE_PHONE
+			FROM  rate_projects RP  left join projects P ON RP.PROJECT_ID = P.ID
+			WHERE RP.STATUS = '1' AND p.STATUS = '1' AND RATE_ID = #{rateId,jdbcType=VARCHAR}
+		) PP LEFT JOIN DEVICES D ON PP.DEVICE_ID = D.ID
+	</select>
+	
+	<select id="queryRateProjectsByRateId" parameterType="java.lang.String" resultMap="ProjectsResultMap" >
+	    SELECT R.ID, R.RATE_ID, R.STATUS, R.PROJECT_ID, R.PRICE, R.PREPAYMENT_AMOUNT, R.SINGLE_PHONE, R.LINK_TO_BILLING FROM RATE_PROJECTS R LEFT JOIN PROJECTS P
+		ON R.PROJECT_ID = P.ID
+		WHERE P.STATUS = '1' AND R.RATE_ID = #{rateId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryRateProjectsByRateIdLike" parameterType="java.lang.String" resultMap="ProjectsResultMap" >
+	    SELECT R.ID, R.RATE_ID, R.STATUS, R.PROJECT_ID, R.PRICE, R.PREPAYMENT_AMOUNT, R.SINGLE_PHONE, R.LINK_TO_BILLING FROM RATE_PROJECTS R LEFT JOIN PROJECTS P
+		ON R.PROJECT_ID = P.ID
+		WHERE P.STATUS = '1' AND R.RATE_ID like #{rateId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryRateProjectsByProjectsId" parameterType="java.util.List" resultMap="ProjectsResultMap" >
+	    SELECT PROJECT_ID FROM RATE_PROJECTS
+		WHERE STATUS = '1' AND LINK_TO_BILLING = 'Y' AND PROJECT_ID in 
+		<foreach collection="list" item="rateIdList" open="(" close=")" separator="," >
+        	#{rateIdList}
+        </foreach>
+        GROUP BY PROJECT_ID
+	</select>
+	
+	<select id="queryProjectBak" parameterType="java.util.Map" resultMap="ProjectJoinMap" >
+	    SELECT RP.PROJECT_ID, RT.TELECOM_ID, RT.TEL_NAME, RT.RATE_NAME, RT.CHARGES_MONTH, RT.RATE_ID, RT.NET_VOL_DESC, RT.FREE_WIFI_DESC
+		, RT.FREE_VOICE_DESC, RT.VOICE_ON_NET_SEC, RT.VOICE_OFF_NET_SEC, RT.PSTN, RT.CONTRACT_MONTHS, RT.PREPAYMENT_AMOUNT FROM (
+		    SELECT T.ID AS TELECOM_ID, T.NAME AS TEL_NAME, R.NAME AS RATE_NAME, R.CHARGES_MONTH, R.ID AS RATE_ID, R.NET_VOL_DESC, R.FREE_WIFI_DESC, 
+			    R.FREE_VOICE_DESC, R.VOICE_ON_NET_SEC, R.VOICE_OFF_NET_SEC, R.PSTN, R.CONTRACT_MONTHS, R.PREPAYMENT_AMOUNT
+				FROM TELECOM_RATE R LEFT JOIN TELECOM T ON T.ID = R.TELECOM_ID
+				WHERE
+		    R.TELECOM_ID = #{telId,jdbcType=VARCHAR}
+				AND CHARGES_MONTH BETWEEN #{upperFee,jdbcType=VARCHAR} AND #{lowerFee,jdbcType=VARCHAR}
+		) RT left join rate_projects RP ON RP.RATE_ID = RT.RATE_ID
+		WHERE RP.STATUS = '1'
+		ORDER BY CHARGES_MONTH
+	</select>
+</mapper>

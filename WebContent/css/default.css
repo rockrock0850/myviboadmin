@@ -1,0 +1,281 @@
+/*********************************************************************************/
+/* 全域設定                                                                      */
+/*********************************************************************************/
+
+	html, body
+	{
+		height: 100%;
+	}
+	
+	body
+	{
+		background: #3D3D3D;
+		font-weight: 300;
+		color: #6c6c6c
+	}
+
+	/**************** 以下為預設字型及顏色等 ****************/
+	table.with_border, html, body, div, select, textarea, input, option, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption, tbody, tfoot, thead, tr, th, td
+	{
+		padding:0;
+		font-family:Helvetica, Verdana, "LiHei Pro", 微軟正黑體, 標楷體, 新細明體, sans-serif;
+		margin:0px auto auto auto;
+		letter-spacing:0.1em;
+		line-height:1.5;
+	}
+	
+	
+	h1, h2, h3
+	{
+		margin: 0;
+		padding: 0;
+		font-weight: 600;
+		color: #454445;
+	}
+	
+	p, ol, ul
+	{
+		margin-top: 0;
+	}
+	
+	ol, ul
+	{
+		padding: 0;
+		list-style: none;
+	}
+	
+	p
+	{
+		line-height: 180%;
+	}
+	
+	strong
+	{
+	}
+	
+	a
+	{
+		color: #068900;
+	}
+	
+	a:hover
+	{
+		text-decoration: none;
+	}
+	
+	.container
+	{
+		margin: 0px auto;
+		width: 1200px;
+	}
+	
+
+/*********************************************************************************/
+/* Header                                                                        */
+/*********************************************************************************/
+	
+	#header-wrapper
+	{
+	}
+
+	#header
+	{
+		position: relative;
+		height: 80px;
+	}
+
+	.headeruserid
+	{
+		vertical-align: bottom;
+		padding-bottom: 10px;
+	}
+
+	.headeruserid span
+	{
+		margin-left: 10px;
+		color: #FFFFFF;
+	}
+/*********************************************************************************/
+/* Logo                                                                          */
+/*********************************************************************************/
+
+	#logo
+	{
+		position: absolute;
+		top: 0.8em;
+		left: 0;
+		width: 100%;
+	}
+	
+	#logo h1
+	{
+		display: inline-block;
+		font-size: 2.5em;
+		text-transform: uppercase;
+		font-weight: 700;
+		color: #FFF;
+	}
+	
+	#logo a
+	{
+		text-decoration: none;
+		color: #FFF;
+	}
+
+/*********************************************************************************/
+/* Menu                                                                          */
+/*********************************************************************************/
+
+	#mainmenuitem, #mainmenuitem .ui-menu-item {
+		width: 10em!important;
+	}
+	
+	#mainmenu
+	{
+		position: absolute;
+		right: 12em;
+		bottom: 10px;
+	}
+
+	#menu
+	{
+		position: absolute;
+		right: 0;
+		top: 1em;
+	}
+	
+	#menu ul
+	{
+		display: inline-block;
+	}
+	
+	#menu li
+	{
+		display: block;
+		float: left;
+		text-align: center;
+	}
+	
+	#menu li a, #menu li span
+	{
+		display: block;
+		margin: 0px 1px;
+		padding: 0em 1.5em;
+		letter-spacing: 0.20em;
+		line-height: 50px;
+		text-decoration: none;
+		font-size: 0.90em;
+		font-weight: 600;
+		text-transform: uppercase;
+		outline: 0;
+		color: #FFF;
+	}
+	
+	#menu li:hover a, #menu li.active a, #menu li.active span
+	{
+		background: #068900;
+		color: #FFF;
+	}
+	
+	#menu .current_page_item a
+	{
+		background: #068900;
+		color: #FFF;
+	}
+
+/*********************************************************************************/
+/* Page                                                                          */
+/*********************************************************************************/
+
+	#wrapper
+	{
+		background: #FFF;
+	}
+	
+	#page
+	{
+		overflow: hidden;
+		padding: 2em 1em;
+		min-height: 350px;
+	}
+
+/*********************************************************************************/
+/* Footer                                                                        */
+/*********************************************************************************/
+
+	#footer
+	{
+		overflow: hidden;
+		padding: 1em 0em 0.2em 0em;
+		text-align: center;
+	}
+	
+	#footer header
+	{
+	}
+	
+	#footer header h2
+	{
+		color: #FFF;
+	}
+	
+
+/*********************************************************************************/
+/* Copyright                                                                     */
+/*********************************************************************************/
+
+	#copyright
+	{
+		overflow: hidden;
+		padding: 0em;
+	}
+	
+	#copyright p
+	{
+		letter-spacing: 0.20em;
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 0.80em;
+		color: #CFCFCF;
+	}
+	
+	#copyright a
+	{
+		text-decoration: none;
+		color: #8C8C8C;
+	}
+
+
+/**********************************************************************************************/
+/* Timepicker for jQuery UI Datepicker (http://trentrichardson.com/examples/timepicker/)      */
+/**********************************************************************************************/
+	.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+	.ui-timepicker-div dl { text-align: left; }
+	.ui-timepicker-div dl dt { float: left; clear:left; padding: 0 0 0 5px; }
+	.ui-timepicker-div dl dd { margin: 0 10px 10px 40%; }
+	.ui-timepicker-div td { font-size: 90%; }
+	.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+	
+	.ui-timepicker-rtl{ direction: rtl; }
+	.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+	.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+	.ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
+
+/**************** 以下為 Form Validate 錯誤訊息的文字顏色 ****************/
+label.error{
+	color: #ff0600;
+	font-size: 12px;
+	padding: 5px 0 0;
+}
+
+.hasBorder, .hasBorder th, .hasBorder td{
+	border-collapse:collapse;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.hasBorder th{
+	background-color: #FFDD57;
+}
+
+.filtered_table1 td input{width:100%;}

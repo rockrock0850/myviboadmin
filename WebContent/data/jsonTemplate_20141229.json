@@ -1,0 +1,29 @@
+{
+	"title_banner":[
+		{
+			"pic":"",
+			"url":""
+		}
+		
+	],
+	"promote_banner":{
+		"title_pic_android":"",
+		"title_pic_ios":"",
+		"more_url":"",
+		"promote_data":[
+			{
+				"pic":"",
+				"url":""
+			}
+			
+		]
+		
+	},
+	"video":{
+		"more_url":"",
+		"youtube_url":""
+	},
+	"news":{
+		"more_url":""
+	}
+}
